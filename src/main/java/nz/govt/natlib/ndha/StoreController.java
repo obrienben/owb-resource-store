@@ -1,5 +1,7 @@
 package nz.govt.natlib.ndha;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +26,10 @@ import java.util.regex.Pattern;
 @RequestMapping("/")
 public class StoreController {
 
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+//	Service service = context.getBean(Service.class);
 	private static Map<String, String> warcs = new HashMap<String, String>();
+	private StoreSource source = (StoreSource) ctx.getBean("storeSource");
 
 	public StoreController(){
 		warcs.put("WEB-20160603014432482-00000-9193-ubuntu-8443.warc", "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\WEB-20160603014432482-00000-9193-ubuntu-8443.warc");
@@ -41,27 +46,56 @@ public class StoreController {
 		return;
 	}
 
+	@RequestMapping(value = "add/{filename:.+}", method = RequestMethod.GET)
+	public void putWarc(HttpServletResponse response, ModelMap model, @PathVariable("filename") String filename) {
+
+		try {
+			// Add warc to data store
+			if(!addWarc(filename)){
+				response.sendError(500, "Unable to update Store with warc file.");
+				return;
+			}
+
+			// Construct response
+			response.setStatus(201);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				response.sendError(500, "Unable to retrieve warc record");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			return;
+		}
+	}
+
+
 	@RequestMapping(value = "{filename:.+}", method = RequestMethod.GET)
 	public void streamWarc(HttpServletRequest request, HttpServletResponse response, ModelMap model, @PathVariable("filename") String filename) {
 
 		try {
+			// Lookup warc file path
 			Path warcPath = getWarc(filename);
 			if(warcPath == null){
 				response.sendError(404, "Warc filename requested was not found");
 				return;
 			}
 
+			// Parse range requested in Header
 			Range range = Range.parseHeader(request, Files.size(warcPath));
 			if(range == null){
 				response.sendError(400, "Invalid or no range requested");
 				return;
 			}
 
+			// Construct response
 			response.setStatus(206);
 			response.setHeader("Content-Range", range.toString());
 			response.setHeader("Content-Length", Long.toString(range.length));
 			response.setContentType("application/warc");
 
+			// Write requested range from warc file to response
 			WritableByteChannel out = Channels.newChannel(response.getOutputStream());
 			FileChannel fileChannelIn = FileChannel.open(warcPath, StandardOpenOption.READ);
 			fileChannelIn.transferTo(range.start, range.length, out);
@@ -78,9 +112,14 @@ public class StoreController {
 	}
 
 
+	private boolean addWarc(String filename) {
+		return source.addWarc(filename);
+	}
+
 	private Path getWarc(String filename) {
-		if(filename != null && warcs.containsKey(filename)){
-			return Paths.get(warcs.get(filename));
+		String warcPath = source.getWarc(filename);
+		if(warcPath != null){
+			return Paths.get(warcPath);
 		}
 		return null;
 	}
