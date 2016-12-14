@@ -140,14 +140,27 @@ public class StoreSource {
                 System.out.println("ResourceStore warc: " + name);
             }
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // Push pre-loaded data to memcache instance
+        if(storeLocation.equals("remote")){
+            System.out.println("ResourceStore location: remote");
+            try {
+                MemcachedClient memcacheConn = MemcachedClientFactory.getNewConnection();
 
+                for(String name : warcs.keySet()){
+                    System.out.println("ResourceStore adding: " + name);
+                    OperationFuture<Boolean> op = memcacheConn.set(name, 21600, warcs.get(name).getFilepath());
+                }
 
-//        warcs.put();
+//                memcacheConn.getConnection().shutdown();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }
