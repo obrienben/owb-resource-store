@@ -1,9 +1,13 @@
 package nz.govt.natlib.ndha;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -31,8 +35,15 @@ public class StoreController {
 	private static Map<String, String> warcs = new HashMap<String, String>();
 	private StoreSource source = (StoreSource) ctx.getBean("storeSource");
 
+//	@Value("${resourcestore.preloadData}")
+//	private Boolean preLoadData;
+
 	public StoreController(){
 		warcs.put("WEB-20160603014432482-00000-9193-ubuntu-8443.warc", "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\WEB-20160603014432482-00000-9193-ubuntu-8443.warc");
+
+//		if(preLoadData){
+//			System.out.println("preloadData: true");
+//		}
 	}
 
 

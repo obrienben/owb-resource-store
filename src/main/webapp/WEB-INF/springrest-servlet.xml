@@ -11,4 +11,11 @@
        <mvc:annotation-driven/>
        <context:component-scan base-package="nz.govt.natlib.ndha" />
 
+    <context:property-placeholder location="classpath:resourcestore.properties,classpath:path-index.txt" />
+
+    <!--<bean id="storeSource" class="nz.govt.natlib.ndha.StoreSource">-->
+        <!--<property name="preLoadData" value="${loadDataFromFile}" />-->
+        <!--<property name="barcodeStatusType" value="${barcode.status}" />-->
+    <!--</bean>-->
+
 </beans>

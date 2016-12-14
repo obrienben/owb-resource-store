@@ -1,0 +1,4 @@
+NLNZ-TI92930263-20151108060042-00000-kaiwae-z4.warc C:\\wct\\openwayback2.2\\store\\oversixty\\NLNZ-TI92930263-20151108060042-00000-kaiwae-z4.warc
+NLNZ-TI92930263-20151108060054-00001-kaiwae-z4.warc C:\\wct\\openwayback2.2\\store\\oversixty\\NLNZ-TI92930263-20151108060054-00001-kaiwae-z4.warc
+NLNZ-TI92930263-20151108111900-00002-kaiwae-z4.warc C:\\wct\\openwayback2.2\\store\\oversixty\\NLNZ-TI92930263-20151108111900-00002-kaiwae-z4.warc
+NLNZ-TI92930263-20151108112503-00003-kaiwae-z4.warc C:\\wct\\openwayback2.2\\store\\oversixty\\NLNZ-TI92930263-20151108112503-00003-kaiwae-z4.warc
