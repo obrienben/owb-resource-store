@@ -5,6 +5,7 @@ import net.spy.memcached.CASValue;
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.MemcachedConnection;
 import net.spy.memcached.internal.OperationFuture;
+import net.spy.memcached.ops.OperationStatus;
 import net.spy.memcached.spring.MemcachedClientFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -82,9 +83,9 @@ public class StoreSource {
         return null;
     }
 
-    public boolean addWarc(String name){
+    public boolean addWarc(String name, String path){
         MemcachedClient memcacheConn = MemcachedClientFactory.getNewConnection();
-        String path = "";
+        String filePath = path;
 //        if(warcExists(name)){
 //            // Update timestamp
 //            warcs.get(name).regenLastUpdated();
@@ -93,22 +94,24 @@ public class StoreSource {
 //        else{
 //            WarcResource newWarc = new WarcResource(name, "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\" + name);
         if(name.equals("WEB-20160603014432482-00000-9193-ubuntu-8443.warc")){
-            path = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\" + name;
+            filePath = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\" + name;
         }
         else if(name.equals("NLNZ-TI92930263-20151108060042-00000-kaiwae-z4.warc")){
-            path = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\" + name;
+            filePath = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\" + name;
         }
         else if(name.equals("NLNZ-TI92930263-20151108060054-00001-kaiwae-z4.warc")){
-            path = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\" + name;
+            filePath = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\" + name;
         }
         else if(name.equals("NLNZ-TI92930263-20151108111900-00002-kaiwae-z4.warc")){
-            path = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\" + name;
+            filePath = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\" + name;
         }
         else if(name.equals("NLNZ-TI92930263-20151108112503-00003-kaiwae-z4.warc")){
-            path = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\" + name;
+            filePath = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\" + name;
         }
 
-        OperationFuture<Boolean> op = memcacheConn.set(name, 21600, path);
+        OperationFuture<Boolean> op = memcacheConn.set(name, 21600, filePath);
+        OperationStatus os = op.getStatus();
+        return os.isSuccess();
 //            warcs.put(name, newWarc);
 
 //        try {
@@ -116,7 +119,7 @@ public class StoreSource {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-            return true;
+//            return true;
 //        }
     }
 
@@ -146,15 +149,16 @@ public class StoreSource {
 
         // Push pre-loaded data to memcache instance
         if(storeLocation.equals("remote")){
-            System.out.println("ResourceStore location: remote");
+            System.out.println("Pre load memcache with data");
             try {
                 MemcachedClient memcacheConn = MemcachedClientFactory.getNewConnection();
 
                 for(String name : warcs.keySet()){
-                    System.out.println("ResourceStore adding: " + name);
+                    System.out.println("ResourceStore pushing to memcache: " + name);
                     OperationFuture<Boolean> op = memcacheConn.set(name, 21600, warcs.get(name).getFilepath());
                 }
 
+                // Closing the connection seems to break the set functionality
 //                memcacheConn.getConnection().shutdown();
             } catch (Exception e) {
                 e.printStackTrace();

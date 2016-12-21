@@ -1,16 +1,17 @@
 package nz.govt.natlib.ndha;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
@@ -18,7 +19,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,19 +34,11 @@ import java.util.regex.Pattern;
 public class StoreController {
 
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-//	Service service = context.getBean(Service.class);
 	private static Map<String, String> warcs = new HashMap<String, String>();
 	private StoreSource source = (StoreSource) ctx.getBean("storeSource");
 
-//	@Value("${resourcestore.preloadData}")
-//	private Boolean preLoadData;
-
 	public StoreController(){
 		warcs.put("WEB-20160603014432482-00000-9193-ubuntu-8443.warc", "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\WEB-20160603014432482-00000-9193-ubuntu-8443.warc");
-
-//		if(preLoadData){
-//			System.out.println("preloadData: true");
-//		}
 	}
 
 
@@ -57,12 +52,64 @@ public class StoreController {
 		return;
 	}
 
+	@RequestMapping(method = RequestMethod.POST)
+	public void updateStore(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+
+		try {
+			BufferedReader reader = request.getReader();
+			StringBuffer content = new StringBuffer();
+			String line;
+			while((line = reader.readLine()) != null){
+				content.append(line);
+			}
+			Type hashMapType = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> filePaths = new Gson().fromJson(content.toString(), hashMapType);
+
+			HashMap<String, List<String>> results = new HashMap<>();
+			List<String> success = new ArrayList<>();
+			List<String> fail = new ArrayList<>();
+
+			// Add warcs to data store
+			for(String key : filePaths.keySet()){
+				if(addWarc(key, filePaths.get(key))){
+					success.add(key);
+				}
+				else{
+					fail.add(key);
+				}
+			}
+			results.put("success", success);
+			results.put("fail", fail);
+
+			response.setStatus(200);
+			if(fail.isEmpty()) {
+				response.setStatus(400);
+			}
+
+			// Send results back
+			byte[] resultsJSON = new Gson().toJson(results).getBytes();
+			response.setContentType("application/json");
+			response.setHeader("Content-Length", Long.toString(resultsJSON.length));
+			response.getOutputStream().write(resultsJSON);
+			return;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				response.sendError(500, "Unable to retrieve warc record");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			return;
+		}
+	}
+
 	@RequestMapping(value = "add/{filename:.+}", method = RequestMethod.GET)
 	public void putWarc(HttpServletResponse response, ModelMap model, @PathVariable("filename") String filename) {
 
 		try {
 			// Add warc to data store
-			if(!addWarc(filename)){
+			if(!addWarc(filename, "")){
 				response.sendError(500, "Unable to update Store with warc file.");
 				return;
 			}
@@ -123,8 +170,8 @@ public class StoreController {
 	}
 
 
-	private boolean addWarc(String filename) {
-		return source.addWarc(filename);
+	private boolean addWarc(String filename, String filePath) {
+		return source.addWarc(filename, filePath);
 	}
 
 	private Path getWarc(String filename) {

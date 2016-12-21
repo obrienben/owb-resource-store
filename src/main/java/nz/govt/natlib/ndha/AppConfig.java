@@ -30,8 +30,15 @@ public class AppConfig {
     @Value("${resourcestore.storeLocation}")
     public String storeLocation;
 
+    @Value("${resourcestore.memcacheHost}")
+    public String memcacheHost;
+
+    @Value("${resourcestore.memcachePort}")
+    public String memcachePort;
+
     @Bean
     public StoreSource storeSource(){
+        MemcachedClientFactory.setConnectionDetails(memcacheHost, memcachePort);
         Resource dataResource = resourceLoader.getResource("classpath:path-index.txt");
         return new StoreSource(preloadData, storeLocation, dataResource);
     }
