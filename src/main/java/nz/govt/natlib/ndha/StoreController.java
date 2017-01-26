@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.Type;
-import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
@@ -19,12 +18,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -33,6 +32,7 @@ import java.util.regex.Pattern;
 @RequestMapping("/")
 public class StoreController {
 
+	private static final Logger log = LogManager.getLogger(StoreController.class);
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 	private static Map<String, String> warcs = new HashMap<String, String>();
 	private StoreSource source = (StoreSource) ctx.getBean("storeSource");
@@ -54,7 +54,7 @@ public class StoreController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public void updateStore(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
-
+		log.info("Received new filepaths - updating Resource Store");
 		try {
 			BufferedReader reader = request.getReader();
 			StringBuffer content = new StringBuffer();
@@ -73,6 +73,7 @@ public class StoreController {
 			for(String key : filePaths.keySet()){
 				if(addWarc(key, filePaths.get(key))){
 					success.add(key);
+					log.debug("Filepath successfully added to Resource Store for key: " + key);
 				}
 				else{
 					fail.add(key);
@@ -82,8 +83,9 @@ public class StoreController {
 			results.put("fail", fail);
 
 			response.setStatus(200);
-			if(fail.isEmpty()) {
+			if(!fail.isEmpty()) {
 				response.setStatus(400);
+				log.warn("One or more filepaths were unable to be stored.");
 			}
 
 			// Send results back
@@ -94,11 +96,11 @@ public class StoreController {
 			return;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Failed to update Resource Store", e);
 			try {
 				response.sendError(500, "Unable to retrieve warc record");
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				log.error("Failed to send 500 response", e1);
 			}
 			return;
 		}
@@ -122,7 +124,7 @@ public class StoreController {
 			try {
 				response.sendError(500, "Unable to retrieve warc record");
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				log.error("Failed to send 500 response", e1);
 			}
 			return;
 		}
@@ -137,6 +139,7 @@ public class StoreController {
 			Path warcPath = getWarc(filename);
 			if(warcPath == null){
 				response.sendError(404, "Warc filename requested was not found");
+				log.warn("Requested filename was not found in Resource Store: " + filename);
 				return;
 			}
 
@@ -144,6 +147,7 @@ public class StoreController {
 			Range range = Range.parseHeader(request, Files.size(warcPath));
 			if(range == null){
 				response.sendError(400, "Invalid or no range requested");
+				log.warn("Invalid or no range requested supplied in request.");
 				return;
 			}
 
@@ -158,12 +162,15 @@ public class StoreController {
 			FileChannel fileChannelIn = FileChannel.open(warcPath, StandardOpenOption.READ);
 			fileChannelIn.transferTo(range.start, range.length, out);
 
+			log.debug("Requested file was successfully streamed: " + filename);
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error("Failed to read from Resource Store", e);
 			try {
 				response.sendError(500, "Unable to retrieve warc record");
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				log.error("Failed to send 500 response", e1);
 			}
 			return;
 		}

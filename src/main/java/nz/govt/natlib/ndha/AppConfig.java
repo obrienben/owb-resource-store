@@ -1,8 +1,7 @@
 package nz.govt.natlib.ndha;
 
-import net.spy.memcached.AddrUtil;
-import net.spy.memcached.BinaryConnectionFactory;
-import net.spy.memcached.MemcachedClient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,16 +9,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
 
 /**
  * Created by Developer on 20/09/2016.
  */
 @Configuration
 public class AppConfig {
+
+    private static final Logger log = LogManager.getLogger(AppConfig.class);
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -38,6 +35,7 @@ public class AppConfig {
 
     @Bean
     public StoreSource storeSource(){
+        log.info("Configuring Store Source");
         MemcachedClientFactory.setConnectionDetails(memcacheHost, memcachePort);
         Resource dataResource = resourceLoader.getResource("classpath:path-index.txt");
         return new StoreSource(preloadData, storeLocation, dataResource);

@@ -6,16 +6,16 @@ import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.MemcachedConnection;
 import net.spy.memcached.internal.OperationFuture;
 import net.spy.memcached.ops.OperationStatus;
-import net.spy.memcached.spring.MemcachedClientFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.Resource;
 
-import javax.servlet.ServletContext;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  * Created by Developer on 20/09/2016.
@@ -23,12 +23,11 @@ import java.util.Map;
 
 public class StoreSource {
 
+    private static final Logger log = LogManager.getLogger(StoreSource.class);
     private static Map<String, WarcResource> warcs;
     private static String preLoadData;
     private static String storeLocation = "remote";
     private static Resource dataFile;
-//    @Autowired
-//    private MemcachedClient memcacheConn;
 
     public StoreSource(String preloadData, String storeLocation, Resource dataFile){
         this.preLoadData = preloadData;
@@ -44,6 +43,13 @@ public class StoreSource {
             System.out.println("Pre-loading store with static data.");
             preloadData();
         }
+
+        // Disable spymemcached logging
+        Properties systemProperties = System.getProperties();
+//        systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.Log4JLogger");
+        System.setProperty("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.SunLogger");
+        java.util.logging.Logger.getLogger("net.spy.memcached").setLevel(Level.OFF);
+        System.setProperties(systemProperties);
     }
 
 
@@ -124,8 +130,10 @@ public class StoreSource {
     }
 
     private void preloadData() {
-        System.out.println("storeLocation: " + storeLocation);
-        System.out.println("dataFile: " + dataFile.toString());
+        log.debug("Resource Store initialization: preloading data");
+        log.debug("Resource Store storeLocation: " + storeLocation);
+        log.debug("Resource Store dataFile: " + dataFile.toString());
+
         try {
             InputStream is = dataFile.getInputStream();
             InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
@@ -133,35 +141,33 @@ public class StoreSource {
             String line = null;
 
             while((line = br.readLine()) != null){
-//                System.out.println("ResourceStore line: " + line);
                 String[] tokens = line.split(" ");
                 WarcResource newWarc = new WarcResource(tokens[0], tokens[1]);
                 warcs.put(tokens[0], newWarc);
             }
 
-            for(String name : warcs.keySet()){
-                System.out.println("ResourceStore warc: " + name);
-            }
+//            for(String name : warcs.keySet()){
+//                log.debug("Reading warc from file: " + name);
+//            }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Unable to read preload data.", e);
         }
 
         // Push pre-loaded data to memcache instance
         if(storeLocation.equals("remote")){
-            System.out.println("Pre load memcache with data");
             try {
                 MemcachedClient memcacheConn = MemcachedClientFactory.getNewConnection();
 
                 for(String name : warcs.keySet()){
-                    System.out.println("ResourceStore pushing to memcache: " + name);
+                    log.debug("Preloading resource into memcache server: " + name);
                     OperationFuture<Boolean> op = memcacheConn.set(name, 21600, warcs.get(name).getFilepath());
                 }
 
                 // Closing the connection seems to break the set functionality
 //                memcacheConn.getConnection().shutdown();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Unable to preload memcache server.", e);
             }
         }
 

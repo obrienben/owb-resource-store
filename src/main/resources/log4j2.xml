@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  | For more configuration information and examples see the Apache Log4j2
+  | website: http://logging.apache.org/log4j/2.x/
+ -->
+
+
+<Configuration>
+
+    <Properties>
+        <!--
+        For more information on Property Substitution, eg. sys:catalina.base
+        Visit http://logging.apache.org/log4j/2.x/manual/configuration.html#PropertySubstitution
+        -->
+        <Property name="log-path">${sys:catalina.base}/logs</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console_Appender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-5p %t %c{1} %d{yyyy-MM-dd HH:mm:ss.SSS} -%m%n"/>
+        </Console>
+
+        <!--<File name="File_Appender" fileName="${catalina.base}/logs/SpineLabel.log" append="true">-->
+        <RollingFile name="File_Appender" fileName="${log-path}/OWResourceStore.log" filePattern="${log-path}/OWResourceStore-%i.log">
+            <PatternLayout pattern="%-5p %c %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
+            <Policies>
+                <!-- Set the max log file size to 4 MB and rotate it when it reaches the limit -->
+                <SizeBasedTriggeringPolicy size="4 MB" />
+            </Policies>
+            <!-- Set the max number of log files to 10 each 4 MB before it is removed
+			     and oldest file is moved to the next one when the new log is created -->
+            <DefaultRolloverStrategy fileIndex="min" max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- name must equal the package of the classes to be logged -->
+        <Logger name="nz.govt.natlib.ndha" level="debug" additivity="true">
+            <AppenderRef ref="File_Appender"/>
+        </Logger>
+        <!--<Root level="error">-->
+            <!--<AppenderRef ref="Console_Appender"/>-->
+        <!--</Root>-->
+    </Loggers>
+
+</Configuration>
+

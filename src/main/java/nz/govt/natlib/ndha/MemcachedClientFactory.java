@@ -3,14 +3,15 @@ package nz.govt.natlib.ndha;
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.BinaryConnectionFactory;
 import net.spy.memcached.MemcachedClient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 
 public class MemcachedClientFactory {
 
-//    private static String HOST_ADDRESS = "192.168.127.135";
-//    private static String HOST_PORT = "11211";
+    private static final Logger log = LogManager.getLogger(MemcachedClientFactory.class);
     private static String HOST_ADDRESS = null;
     private static String HOST_PORT = null;
     private static String HOST_SEPARATOR = ":";
@@ -25,15 +26,14 @@ public class MemcachedClientFactory {
     public static MemcachedClient getNewConnection() {
         MemcachedClient mem = null;
         if(HOST_ADDRESS == null || HOST_PORT == null){
-            System.out.println("Failed to establish Memcache connection - host and/or port not set. ");
+            log.error("Failed to establish Memcache connection - host and/or port not set.");
             return null;
         }
 
         try {
             mem = new MemcachedClient(new BinaryConnectionFactory(), AddrUtil.getAddresses(HOST_ADDRESS+HOST_SEPARATOR+HOST_PORT));
         } catch (IOException e) {
-            e.printStackTrace();
-            // TODO Log error that can't get connection
+            log.error("Unable to establish new connection to Memcache server.", e);
             return null;
         }
         return mem;
