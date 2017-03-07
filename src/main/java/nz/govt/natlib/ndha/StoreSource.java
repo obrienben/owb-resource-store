@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 /**
@@ -28,6 +29,7 @@ public class StoreSource {
     private static String preLoadData;
     private static String storeLocation = "remote";
     private static Resource dataFile;
+    private static MemcachedClient memcacheConn;
 
     public StoreSource(String preloadData, String storeLocation, Resource dataFile){
         this.preLoadData = preloadData;
@@ -63,7 +65,11 @@ public class StoreSource {
     public String getWarc(String name){
 
         if(storeLocation.equals("remote")){
-            MemcachedClient memcacheConn = MemcachedClientFactory.getNewConnection();
+
+            if(!isConnectionAlive()){
+                return null;
+            }
+
             CASValue<Object> casVal = memcacheConn.getAndTouch(name, 21600);
             if(casVal != null){
                 String value = (String) casVal.getValue();
@@ -90,7 +96,11 @@ public class StoreSource {
     }
 
     public boolean addWarc(String name, String path){
-        MemcachedClient memcacheConn = MemcachedClientFactory.getNewConnection();
+//        MemcachedClient memcacheConn = MemcachedClientFactory.getNewConnection();
+        if(!isConnectionAlive()){
+            return false;
+//            startConnection();
+        }
         String filePath = path;
 //        if(warcExists(name)){
 //            // Update timestamp
@@ -117,6 +127,7 @@ public class StoreSource {
 
         OperationFuture<Boolean> op = memcacheConn.set(name, 21600, filePath);
         OperationStatus os = op.getStatus();
+//        memcacheConn.shutdown(1)
         return os.isSuccess();
 //            warcs.put(name, newWarc);
 
@@ -157,15 +168,16 @@ public class StoreSource {
         // Push pre-loaded data to memcache instance
         if(storeLocation.equals("remote")){
             try {
-                MemcachedClient memcacheConn = MemcachedClientFactory.getNewConnection();
+                MemcachedClient conn = MemcachedClientFactory.getNewConnection();
 
                 for(String name : warcs.keySet()){
                     log.debug("Preloading resource into memcache server: " + name);
-                    OperationFuture<Boolean> op = memcacheConn.set(name, 21600, warcs.get(name).getFilepath());
+                    OperationFuture<Boolean> op = conn.set(name, 21600, warcs.get(name).getFilepath());
+
                 }
 
                 // Closing the connection seems to break the set functionality
-//                memcacheConn.getConnection().shutdown();
+//                conn.getConnection().shutdown();
             } catch (Exception e) {
                 log.error("Unable to preload memcache server.", e);
             }
@@ -173,4 +185,18 @@ public class StoreSource {
 
     }
 
+    public void startConnection() {
+        memcacheConn = MemcachedClientFactory.getNewConnection();
+    }
+
+    public void endConnection() {
+        memcacheConn.shutdown(1, TimeUnit.SECONDS);
+    }
+
+    public boolean isConnectionAlive(){
+        if(memcacheConn == null){
+            return false;
+        }
+        return memcacheConn.getConnection().isAlive();
+    }
 }

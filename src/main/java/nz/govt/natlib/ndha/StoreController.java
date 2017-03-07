@@ -2,6 +2,7 @@ package nz.govt.natlib.ndha;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import net.spy.memcached.MemcachedClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.ui.ModelMap;
@@ -69,6 +70,9 @@ public class StoreController {
 			List<String> success = new ArrayList<>();
 			List<String> fail = new ArrayList<>();
 
+			// Create new memcache connection
+			establishStoreConnection();
+
 			// Add warcs to data store
 			for(String key : filePaths.keySet()){
 				if(addWarc(key, filePaths.get(key))){
@@ -79,6 +83,7 @@ public class StoreController {
 					fail.add(key);
 				}
 			}
+			terminateStoreConnection();
 			results.put("success", success);
 			results.put("fail", fail);
 
@@ -97,6 +102,7 @@ public class StoreController {
 
 		} catch (Exception e) {
 			log.error("Failed to update Resource Store", e);
+			terminateStoreConnection();
 			try {
 				response.sendError(500, "Unable to retrieve warc record");
 			} catch (IOException e1) {
@@ -105,6 +111,7 @@ public class StoreController {
 			return;
 		}
 	}
+
 
 	@RequestMapping(value = "add/{filename:.+}", method = RequestMethod.GET)
 	public void putWarc(HttpServletResponse response, ModelMap model, @PathVariable("filename") String filename) {
@@ -135,11 +142,16 @@ public class StoreController {
 	public void streamWarc(HttpServletRequest request, HttpServletResponse response, ModelMap model, @PathVariable("filename") String filename) {
 
 		try {
+			// Create new memcache connection
+			establishStoreConnection();
+
 			// Lookup warc file path
 			Path warcPath = getWarc(filename);
+			//TODO build a test to find out what is returned from Memcahce when a key isn't found. Then replace this null test
 			if(warcPath == null){
 				response.sendError(404, "Warc filename requested was not found");
 				log.warn("Requested filename was not found in Resource Store: " + filename);
+				terminateStoreConnection();
 				return;
 			}
 
@@ -150,6 +162,8 @@ public class StoreController {
 				log.warn("Invalid or no range requested supplied in request.");
 				return;
 			}
+
+			terminateStoreConnection();
 
 			// Construct response
 			response.setStatus(206);
@@ -167,6 +181,7 @@ public class StoreController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("Failed to read from Resource Store", e);
+			terminateStoreConnection();
 			try {
 				response.sendError(500, "Unable to retrieve warc record");
 			} catch (IOException e1) {
@@ -176,6 +191,18 @@ public class StoreController {
 		}
 	}
 
+
+	private void establishStoreConnection(){
+		if(!source.isConnectionAlive()){
+			log.debug("Establishing new connection to memcached");
+			source.startConnection();
+		}
+	}
+
+	private void terminateStoreConnection() {
+		log.debug("Terminating connection to memcached");
+		source.endConnection();
+	}
 
 	private boolean addWarc(String filename, String filePath) {
 		return source.addWarc(filename, filePath);
