@@ -195,13 +195,21 @@ public class StoreController {
 	private void establishStoreConnection(){
 		if(!source.isConnectionAlive()){
 			log.debug("Establishing new connection to memcached");
-			source.startConnection();
+			try {
+				source.startConnection("");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private void terminateStoreConnection() {
 		log.debug("Terminating connection to memcached");
-		source.endConnection();
+		try {
+			source.endConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private boolean addWarc(String filename, String filePath) {
