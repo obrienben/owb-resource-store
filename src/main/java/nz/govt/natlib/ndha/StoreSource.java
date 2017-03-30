@@ -11,13 +11,21 @@ public interface StoreSource {
 
     boolean warcExists(String name);
 
-    String getWarc(String name);
+    String getWarc(String name) throws Exception;
 
-    boolean addWarc(String name, String path);
+    boolean addWarc(String name, String path) throws Exception;
 
-    void startConnection(String method) throws Exception;
+    void startConnection(boolean flag) throws Exception;
 
     void endConnection() throws Exception;
 
-    boolean isConnectionAlive();
+    boolean isConnectionAlive() throws Exception;
+
+    boolean supportsHashChecking();
+
+    boolean hashIndexExists(String value) throws Exception;
+
+    void addHashIndex(String hash) throws Exception;
+
+    void updateHashIndex(String hash) throws Exception;
 }

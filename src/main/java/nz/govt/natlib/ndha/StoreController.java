@@ -1,5 +1,6 @@
 package nz.govt.natlib.ndha;
 
+import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.spy.memcached.MemcachedClient;
@@ -15,6 +16,7 @@ import java.lang.reflect.Type;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,41 +59,78 @@ public class StoreController {
 	public void updateStore(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		log.info("Received new filepaths - updating Resource Store");
 		try {
+			boolean skipUpdate = false;
+			String payload_sha1 = "";
+//			HashMap<String, String> filePaths = null;
+			HashMap<String, List<String>> results = new HashMap<>();
 			BufferedReader reader = request.getReader();
 			StringBuffer content = new StringBuffer();
 			String line;
 			while((line = reader.readLine()) != null){
 				content.append(line);
 			}
-			Type hashMapType = new TypeToken<HashMap<String, String>>(){}.getType();
-			HashMap<String, String> filePaths = new Gson().fromJson(content.toString(), hashMapType);
 
-			HashMap<String, List<String>> results = new HashMap<>();
-			List<String> success = new ArrayList<>();
-			List<String> fail = new ArrayList<>();
+			if(source.supportsHashChecking()){
+				payload_sha1 = Hashing.sha1().hashString(content.toString(), StandardCharsets.UTF_8).toString();
+				establishStoreConnection(true);
+				skipUpdate = checkStoreHashIndex(payload_sha1);
+				terminateStoreConnection();
+			}
 
-			// Create new memcache connection
-			establishStoreConnection();
+			if(!skipUpdate){
 
-			// Add warcs to data store
-			for(String key : filePaths.keySet()){
-				if(addWarc(key, filePaths.get(key))){
-					success.add(key);
-					log.debug("Filepath successfully added to Resource Store for key: " + key);
+				Type hashMapType = new TypeToken<HashMap<String, String>>(){}.getType();
+				HashMap<String, String> filePaths = new Gson().fromJson(content.toString(), hashMapType);
+
+				List<String> success = new ArrayList<>();
+				List<String> fail = new ArrayList<>();
+
+				// Create new store connection
+				establishStoreConnection(true);
+
+				// Add warcs to data store
+				for(String key : filePaths.keySet()){
+					if(addWarc(key, filePaths.get(key))){
+						success.add(key);
+						log.debug("Filepath successfully added to Resource Store for key: " + key);
+					}
+					else{
+						fail.add(key);
+					}
+				}
+				terminateStoreConnection();
+				results.put("success", success);
+				results.put("fail", fail);
+
+				response.setStatus(200);
+				if(!fail.isEmpty()) {
+					response.setStatus(400);
+					log.warn("One or more filepaths were unable to be stored.");
 				}
 				else{
-					fail.add(key);
+					// If update was all successful then update hash index
+					if(source.supportsHashChecking()){
+						establishStoreConnection(true);
+						addHashIndex(payload_sha1);
+						terminateStoreConnection();
+					}
 				}
-			}
-			terminateStoreConnection();
-			results.put("success", success);
-			results.put("fail", fail);
 
-			response.setStatus(200);
-			if(!fail.isEmpty()) {
-				response.setStatus(400);
-				log.warn("One or more filepaths were unable to be stored.");
 			}
+			else{
+				establishStoreConnection(true);
+				updateHashIndex(payload_sha1);
+				terminateStoreConnection();
+
+				Type hashMapType = new TypeToken<HashMap<String, String>>(){}.getType();
+				HashMap<String, String> filePaths = new Gson().fromJson(content.toString(), hashMapType);
+
+				List<String> success = new ArrayList<>(filePaths.keySet());
+				List<String> fail = new ArrayList<>();
+				results.put("success", success);
+				results.put("fail", fail);
+			}
+
 
 			// Send results back
 			byte[] resultsJSON = new Gson().toJson(results).getBytes();
@@ -142,8 +181,8 @@ public class StoreController {
 	public void streamWarc(HttpServletRequest request, HttpServletResponse response, ModelMap model, @PathVariable("filename") String filename) {
 
 		try {
-			// Create new memcache connection
-			establishStoreConnection();
+			// Create new store connection
+			establishStoreConnection(false);
 
 			// Lookup warc file path
 			Path warcPath = getWarc(filename);
@@ -192,19 +231,19 @@ public class StoreController {
 	}
 
 
-	private void establishStoreConnection(){
-		if(!source.isConnectionAlive()){
-			log.debug("Establishing new connection to memcached");
+	private void establishStoreConnection(boolean flag){
+//		if(!source.isConnectionAlive()){
+			log.debug("Establishing new connection to Store");
 			try {
-				source.startConnection("");
+				source.startConnection(flag);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+//		}
 	}
 
 	private void terminateStoreConnection() {
-		log.debug("Terminating connection to memcached");
+		log.debug("Terminating connection to Store");
 		try {
 			source.endConnection();
 		} catch (Exception e) {
@@ -212,11 +251,39 @@ public class StoreController {
 		}
 	}
 
-	private boolean addWarc(String filename, String filePath) {
+	private boolean checkStoreHashIndex(String hash){
+		log.debug("Checking hash index in Store");
+		try {
+			return source.hashIndexExists(hash);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	private void addHashIndex(String hash){
+		log.debug("Adding hash index in Store");
+		try {
+			source.addHashIndex(hash);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void updateHashIndex(String hash){
+		log.debug("Updating hash index in Store");
+		try {
+			source.updateHashIndex(hash);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private boolean addWarc(String filename, String filePath) throws Exception {
 		return source.addWarc(filename, filePath);
 	}
 
-	private Path getWarc(String filename) {
+	private Path getWarc(String filename) throws Exception {
 		String warcPath = source.getWarc(filename);
 		if(warcPath != null){
 			return Paths.get(warcPath);

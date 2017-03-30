@@ -63,17 +63,22 @@
             <version>2.5</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.rocksdb</groupId>
-            <artifactId>rocksdbjni</artifactId>
-            <version>4.5.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.rocksdb</groupId>-->
+            <!--<artifactId>rocksdbjni</artifactId>-->
+            <!--<version>4.5.1</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -90,7 +95,8 @@
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
-            <version>3.16.1</version>
+            <!--<version>3.16.1</version>-->
+            <version>3.8.11.2</version>
         </dependency>
 
     </dependencies>

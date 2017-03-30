@@ -187,7 +187,7 @@ public class StoreSourceMemcacheImpl implements StoreSource{
 
     }
 
-    public void startConnection(String method) throws Exception{
+    public void startConnection(boolean flag) throws Exception{
         memcacheConn = MemcachedClientFactory.getNewConnection();
     }
 
@@ -200,5 +200,21 @@ public class StoreSourceMemcacheImpl implements StoreSource{
             return false;
         }
         return memcacheConn.getConnection().isAlive();
+    }
+
+    public boolean supportsHashChecking() {
+        return false;
+    }
+
+    public boolean hashIndexExists(String value) throws Exception {
+        return false;
+    }
+
+    public void addHashIndex(String hash) throws Exception {
+
+    }
+
+    public void updateHashIndex(String hash) throws Exception {
+
     }
 }
