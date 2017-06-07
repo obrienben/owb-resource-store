@@ -90,6 +90,7 @@ public class StoreController {
 
 				// Add warcs to data store
 				for(String key : filePaths.keySet()){
+					log.debug("Adding key to store: " + key);
 					if(addWarc(key, filePaths.get(key))){
 						success.add(key);
 						log.debug("Filepath successfully added to Resource Store for key: " + key);

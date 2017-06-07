@@ -54,7 +54,7 @@ public class StoreSourceSQLiteImpl implements StoreSource{
         return false;
     }
 
-    public String getWarc(String name) throws SQLException {
+    public String getWarc(String name) throws Exception {
 
         if(storeLocation.equals("remote")){
 
@@ -87,16 +87,16 @@ public class StoreSourceSQLiteImpl implements StoreSource{
 //                        endConnection();
                         throw new SQLException(ex);
                     }
-                    try{
+//                    try{
                         endConnection();
                         Thread.sleep(50);
                         sqliteConn.clearWarnings();
                         startConnection(false);
-                    }
-                    catch(Exception e1){
-                        e1.printStackTrace();
-                        return null;
-                    }
+//                    }
+//                    catch(Exception e1){
+//                        e1.printStackTrace();
+//                        return null;
+//                    }
 
                 }
                 // Retry query a second time
@@ -208,9 +208,8 @@ public class StoreSourceSQLiteImpl implements StoreSource{
 //                System.out.println("EVICTING ROW: name = " + rs.getString("name") + ". path = " + rs.getString("path") + ". date_created = " + rs.getString("date_created"));
 //            }
         statement.executeUpdate("DELETE FROM filepath WHERE date_created < '" + evictionCutOff + "'");
+        statement.executeUpdate("DELETE FROM hashindex WHERE date_created < '" + evictionCutOff + "'");
 
-
-//TODO        Also evict from prefetch table
     }
 
     /*
@@ -223,6 +222,8 @@ public class StoreSourceSQLiteImpl implements StoreSource{
         }
         boolean addFilePathTable = true;
         boolean addHashIndexTable = true;
+
+        System.out.println("createTableIfNotExists");
 
         Statement statement = sqliteConn.createStatement();
         statement.setQueryTimeout(30);
@@ -296,7 +297,8 @@ public class StoreSourceSQLiteImpl implements StoreSource{
 
     public void startConnection(boolean flag) throws Exception {
         Class.forName("org.sqlite.JDBC");
-        sqliteConn = DriverManager.getConnection("jdbc:sqlite:C:/AppDev/owresourcestore.db");
+//        sqliteConn = DriverManager.getConnection("jdbc:sqlite:C:/AppDev/owresourcestore.db");
+        sqliteConn = DriverManager.getConnection("jdbc:sqlite:/exlibris2/operational_shared/ow_resource_store/owresourcestore.db");
         if(flag){
             createTableIfNotExists();
             forceEviction();
@@ -334,6 +336,7 @@ public class StoreSourceSQLiteImpl implements StoreSource{
         Statement statement = sqliteConn.createStatement();
         statement.setQueryTimeout(30);
         ResultSet rs = statement.executeQuery("SELECT * FROM hashindex WHERE hash = '" + value + "'");
+        System.out.println("Executed hash index search");
         while(rs.next()){
             if(rs.getString("hash").equals(value)){
                 return true;
