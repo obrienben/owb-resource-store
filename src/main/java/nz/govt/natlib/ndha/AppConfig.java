@@ -36,9 +36,12 @@ public class AppConfig {
     @Bean
     public StoreSource storeSource(){
         log.info("Configuring Store Source");
-        MemcachedClientFactory.setConnectionDetails(memcacheHost, memcachePort);
+//        MemcachedClientFactory.setConnectionDetails(memcacheHost, memcachePort);
         Resource dataResource = resourceLoader.getResource("classpath:path-index.txt");
-        return new StoreSourceSQLiteImpl(preloadData, storeLocation, dataResource);
+        Resource configResource = resourceLoader.getResource("classpath:resourcestore_ehcache.xml");
+        return new StoreSourceEhcacheImpl(preloadData, storeLocation, dataResource, configResource);
+//        return new StoreSourceMemcacheImpl(preloadData, storeLocation, dataResource);
+//        return new StoreSourceSQLiteImpl(preloadData, storeLocation, dataResource);
     }
 
 //    @Bean
