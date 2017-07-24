@@ -37,6 +37,7 @@ public class StoreSourceEhcacheImpl implements StoreSource{
     private static Resource configFile;
     private static Cache<String, String> storeCache;
     private static CacheManager cacheManager;
+    private static HttpConnectionService httpConnector;
 
     public StoreSourceEhcacheImpl(String preloadData, String storeLocation, Resource dataFile, Resource configFile){
         this.preLoadData = preloadData;
@@ -73,9 +74,6 @@ public class StoreSourceEhcacheImpl implements StoreSource{
 //        Resource dataResource = resourceLoader.getResource("classpath:path-index.txt");
         Configuration xmlConfig = new XmlConfiguration(configFile.getURL());
         cacheManager = CacheManagerBuilder.newCacheManager(xmlConfig);
-//        cacheManager = CacheManagerBuilder.newCacheManagerBuilder().withCache(cacheName,
-//                CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, String.class, ResourcePoolsBuilder.heap(10)))
-//                .build();
         cacheManager.init();
         storeCache = cacheManager.getCache(cacheName, String.class, String.class);
     }
@@ -87,7 +85,7 @@ public class StoreSourceEhcacheImpl implements StoreSource{
         return false;
     }
 
-    public String getWarc(String name){
+    public String getWarc(String name) throws Exception {
 
         if(storeLocation.equals("remote")){
 
@@ -95,6 +93,17 @@ public class StoreSourceEhcacheImpl implements StoreSource{
                 String value = storeCache.get(name);
                 if(value != null) {
                     return value;
+                }
+                // Lookup in OWResourceStore pool
+                else{
+                    // if additional resource store instances configured
+                    httpConnector = new HttpConnectionService("http://localhost:8080/OWResourceStore/");
+                    String path = httpConnector.get("lookup/"+name);
+                    if(path != null){
+                        // if found then add to local ehcache instance
+                        addWarc(name, path);
+                        return path;
+                    }
                 }
             }
         }

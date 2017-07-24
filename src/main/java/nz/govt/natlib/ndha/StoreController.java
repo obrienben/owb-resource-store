@@ -197,6 +197,46 @@ public class StoreController {
 		}
 	}
 
+	@RequestMapping(value = "lookup/{filename:.+}", method = RequestMethod.GET)
+	public void lookupWarcPath(HttpServletRequest request, HttpServletResponse response, ModelMap model, @PathVariable("filename") String filename) {
+
+		try {
+			// Create new store connection
+			establishStoreConnection(false);
+
+			// Lookup warc file path
+			Path warcPath = getWarc(filename);
+			if(warcPath == null){
+				response.sendError(404, "Warc filename requested was not found");
+				log.warn("Requested filename was not found in Resource Store: " + filename);
+				terminateStoreConnection();
+				return;
+			}
+
+			terminateStoreConnection();
+
+			// Construct response
+			response.setStatus(206);
+			byte[] warcPathStr = warcPath.toString().getBytes();
+			response.setHeader("Content-Length", Long.toString(warcPathStr.length));
+			response.setContentType("application/text");
+			response.getOutputStream().write(warcPathStr);
+
+			log.debug("Requested filepath was successfully returned: " + filename);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("Failed to read from Resource Store", e);
+			terminateStoreConnection();
+			try {
+				response.sendError(500, "Unable to retrieve warc filepath");
+			} catch (IOException e1) {
+				log.error("Failed to send 500 response", e1);
+			}
+			return;
+		}
+	}
+
 
 	private void establishStoreConnection(boolean flag){
 		log.debug("Establishing new connection to Store");
