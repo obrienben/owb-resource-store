@@ -21,11 +21,4 @@ public interface StoreSource {
 
     boolean isConnectionAlive() throws Exception;
 
-    boolean supportsHashChecking();
-
-    boolean hashIndexExists(String value) throws Exception;
-
-    void addHashIndex(String hash) throws Exception;
-
-    void updateHashIndex(String hash) throws Exception;
 }

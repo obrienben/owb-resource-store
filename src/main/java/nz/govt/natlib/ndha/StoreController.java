@@ -59,8 +59,6 @@ public class StoreController {
 	public void updateStore(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		log.info("Received new filepaths - updating Resource Store");
 		try {
-			boolean skipUpdate = false;
-			String payload_sha1 = "";
 //			HashMap<String, String> filePaths = null;
 			HashMap<String, List<String>> results = new HashMap<>();
 			BufferedReader reader = request.getReader();
@@ -70,66 +68,35 @@ public class StoreController {
 				content.append(line);
 			}
 
-			if(source.supportsHashChecking()){
-				payload_sha1 = Hashing.sha1().hashString(content.toString(), StandardCharsets.UTF_8).toString();
-				establishStoreConnection(true);
-				skipUpdate = checkStoreHashIndex(payload_sha1);
-				terminateStoreConnection();
-			}
 
-			if(!skipUpdate){
+			Type hashMapType = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> filePaths = new Gson().fromJson(content.toString(), hashMapType);
 
-				Type hashMapType = new TypeToken<HashMap<String, String>>(){}.getType();
-				HashMap<String, String> filePaths = new Gson().fromJson(content.toString(), hashMapType);
+			List<String> success = new ArrayList<>();
+			List<String> fail = new ArrayList<>();
 
-				List<String> success = new ArrayList<>();
-				List<String> fail = new ArrayList<>();
-
-				// Create new store connection
+			// Create new store connection
 				establishStoreConnection(true);
 
-				// Add warcs to data store
-				for(String key : filePaths.keySet()){
-					log.debug("Adding key to store: " + key);
-					if(addWarc(key, filePaths.get(key))){
-						success.add(key);
-						log.debug("Filepath successfully added to Resource Store for key: " + key);
-					}
-					else{
-						fail.add(key);
-					}
-				}
-				terminateStoreConnection();
-				results.put("success", success);
-				results.put("fail", fail);
-
-				response.setStatus(200);
-				if(!fail.isEmpty()) {
-					response.setStatus(400);
-					log.warn("One or more filepaths were unable to be stored.");
+			// Add warcs to data store
+			for(String key : filePaths.keySet()){
+				log.debug("Adding key to store: " + key);
+				if(addWarc(key, filePaths.get(key))){
+					success.add(key);
+					log.debug("Filepath successfully added to Resource Store for key: " + key);
 				}
 				else{
-					// If update was all successful then update hash index
-					if(source.supportsHashChecking()){
-						establishStoreConnection(true);
-						addHashIndex(payload_sha1);
-						terminateStoreConnection();
-					}
+					fail.add(key);
 				}
-
 			}
-			else{
-				establishStoreConnection(true);
-				updateHashIndex(payload_sha1);
 				terminateStoreConnection();
+			results.put("success", success);
+			results.put("fail", fail);
 
-				Type hashMapType = new TypeToken<HashMap<String, String>>(){}.getType();
-				HashMap<String, String> filePaths = new Gson().fromJson(content.toString(), hashMapType);
-
-				List<String> success = new ArrayList<>(filePaths.keySet());
-				List<String> fail = new ArrayList<>();
-				results.put("success", success);
-				results.put("fail", fail);
+			response.setStatus(200);
+			if(!fail.isEmpty()) {
+				response.setStatus(400);
+				log.warn("One or more filepaths were unable to be stored.");
 			}
 
 
@@ -187,7 +154,6 @@ public class StoreController {
 
 			// Lookup warc file path
 			Path warcPath = getWarc(filename);
-			//TODO build a test to find out what is returned from Memcahce when a key isn't found. Then replace this null test
 			if(warcPath == null){
 				response.sendError(404, "Warc filename requested was not found");
 				log.warn("Requested filename was not found in Resource Store: " + filename);
@@ -233,48 +199,18 @@ public class StoreController {
 
 
 	private void establishStoreConnection(boolean flag){
-//		if(!source.isConnectionAlive()){
-			log.debug("Establishing new connection to Store");
-			try {
-				source.startConnection(flag);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-//		}
+		log.debug("Establishing new connection to Store");
+		try {
+			source.startConnection(flag);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void terminateStoreConnection() {
 		log.debug("Terminating connection to Store");
 		try {
 			source.endConnection();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private boolean checkStoreHashIndex(String hash){
-		log.debug("Checking hash index in Store");
-		try {
-			return source.hashIndexExists(hash);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private void addHashIndex(String hash){
-		log.debug("Adding hash index in Store");
-		try {
-			source.addHashIndex(hash);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void updateHashIndex(String hash){
-		log.debug("Updating hash index in Store");
-		try {
-			source.updateHashIndex(hash);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

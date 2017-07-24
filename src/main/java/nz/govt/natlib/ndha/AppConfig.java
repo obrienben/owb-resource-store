@@ -41,7 +41,6 @@ public class AppConfig {
         Resource configResource = resourceLoader.getResource("classpath:resourcestore_ehcache.xml");
         return new StoreSourceEhcacheImpl(preloadData, storeLocation, dataResource, configResource);
 //        return new StoreSourceMemcacheImpl(preloadData, storeLocation, dataResource);
-//        return new StoreSourceSQLiteImpl(preloadData, storeLocation, dataResource);
     }
 
 //    @Bean

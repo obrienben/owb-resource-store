@@ -186,13 +186,11 @@ public class StoreSourceEhcacheImpl implements StoreSource{
 
     }
 
-    public void startConnection(boolean flag) throws Exception{
-//        storeCache = cacheManager.getCache(cacheName, String.class, String.class);
-    }
+    // Placeholder
+    public void startConnection(boolean flag) throws Exception{}
 
-    public void endConnection()throws Exception {
-//        storeCache = null;
-    }
+    // Placeholder
+    public void endConnection()throws Exception {}
 
     public boolean isConnectionAlive(){
         if(storeCache == null){
@@ -201,19 +199,4 @@ public class StoreSourceEhcacheImpl implements StoreSource{
         return true;
     }
 
-    public boolean supportsHashChecking() {
-        return false;
-    }
-
-    public boolean hashIndexExists(String value) throws Exception {
-        return false;
-    }
-
-    public void addHashIndex(String hash) throws Exception {
-
-    }
-
-    public void updateHashIndex(String hash) throws Exception {
-
-    }
 }
