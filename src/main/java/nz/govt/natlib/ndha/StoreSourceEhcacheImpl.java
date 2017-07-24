@@ -18,7 +18,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -38,8 +40,9 @@ public class StoreSourceEhcacheImpl implements StoreSource{
     private static Cache<String, String> storeCache;
     private static CacheManager cacheManager;
     private static HttpConnectionService httpConnector;
+    private static String[] resourceStorePool;
 
-    public StoreSourceEhcacheImpl(String preloadData, String storeLocation, Resource dataFile, Resource configFile){
+    public StoreSourceEhcacheImpl(String preloadData, String storeLocation, Resource dataFile, Resource configFile, String resourceStorePoolStr){
         this.preLoadData = preloadData;
         this.storeLocation = storeLocation;
         this.dataFile = dataFile;
@@ -48,6 +51,8 @@ public class StoreSourceEhcacheImpl implements StoreSource{
         warcs = new HashMap<String, WarcResource>();
         WarcResource newWarc = new WarcResource("WEB-20160603014432482-00000-9193-ubuntu-8443.warc",
                 "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\WEB-20160603014432482-00000-9193-ubuntu-8443.warc");
+
+        resourceStorePool = resourceStorePoolStr.split(",");
 
         try {
             initialiseCache();
@@ -97,13 +102,16 @@ public class StoreSourceEhcacheImpl implements StoreSource{
                 // Lookup in OWResourceStore pool
                 else{
                     // if additional resource store instances configured
-                    httpConnector = new HttpConnectionService("http://localhost:8080/OWResourceStore/");
-                    String path = httpConnector.get("lookup/"+name);
-                    if(path != null){
-                        // if found then add to local ehcache instance
-                        addWarc(name, path);
-                        return path;
+                    for(String host : resourceStorePool){
+                        httpConnector = new HttpConnectionService(host);
+                        String path = httpConnector.get("/lookup/"+name);
+                        if(path != null){
+                            // if found then add to local ehcache instance
+                            addWarc(name, path);
+                            return path;
+                        }
                     }
+
                 }
             }
         }
