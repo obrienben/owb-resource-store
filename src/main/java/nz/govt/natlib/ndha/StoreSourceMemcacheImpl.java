@@ -64,7 +64,7 @@ public class StoreSourceMemcacheImpl implements StoreSource{
         return false;
     }
 
-    public String getWarc(String name){
+    public String getWarc(String name, Boolean useStorePool){
 
         if(storeLocation.equals("remote")){
 

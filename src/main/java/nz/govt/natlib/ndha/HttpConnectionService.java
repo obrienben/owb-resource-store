@@ -63,7 +63,7 @@ public class HttpConnectionService {
 
         InputStream ins;
         if (con.getResponseCode() >= 400) {
-            InputStreamReader isr = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+            InputStreamReader isr = new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8);
             BufferedReader in = new BufferedReader(isr);
 
             String inputLine;

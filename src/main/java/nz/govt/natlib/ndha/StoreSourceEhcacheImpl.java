@@ -90,7 +90,7 @@ public class StoreSourceEhcacheImpl implements StoreSource{
         return false;
     }
 
-    public String getWarc(String name) throws Exception {
+    public String getWarc(String name, Boolean useStorePool) throws Exception {
 
         if(storeLocation.equals("remote")){
 
@@ -100,7 +100,7 @@ public class StoreSourceEhcacheImpl implements StoreSource{
                     return value;
                 }
                 // Lookup in OWResourceStore pool
-                else{
+                else if(useStorePool){
                     // if additional resource store instances configured
                     for(String host : resourceStorePool){
                         httpConnector = new HttpConnectionService(host);

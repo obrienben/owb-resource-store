@@ -11,7 +11,7 @@ public interface StoreSource {
 
     boolean warcExists(String name);
 
-    String getWarc(String name) throws Exception;
+    String getWarc(String name, Boolean useResourceStorePool) throws Exception;
 
     boolean addWarc(String name, String path) throws Exception;
 
