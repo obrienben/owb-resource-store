@@ -1,81 +1,118 @@
 package nz.govt.natlib.ndha;
 
 
-import net.spy.memcached.CASValue;
-import net.spy.memcached.MemcachedClient;
-import net.spy.memcached.internal.OperationFuture;
-import net.spy.memcached.ops.OperationStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ehcache.Cache;
+import org.ehcache.CacheManager;
+import org.ehcache.config.Configuration;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.CacheManagerBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
+import org.ehcache.xml.XmlConfiguration;
 import org.springframework.core.io.Resource;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 /**
  * Created by Developer on 20/09/2016.
  */
 
-public class StoreSourceMemcacheImpl implements StoreSource{
+public class StoreSourceEhcacheImpl implements StoreSource{
 
-    private static final Logger log = LogManager.getLogger(StoreSourceMemcacheImpl.class);
+    private static final Logger log = LogManager.getLogger(StoreSourceEhcacheImpl.class);
     private static Map<String, WarcResource> warcs;
     private static String preLoadData;
     private static String storeLocation = "remote";
+    private static String cacheName = "resourceStore";
     private static Resource dataFile;
-    private static MemcachedClient memcacheConn;
+    private static Resource configFile;
+    private static Cache<String, String> storeCache;
+    private static CacheManager cacheManager;
+    private static HttpConnectionService httpConnector;
+    private static String[] resourceStorePool;
 
-    public StoreSourceMemcacheImpl(String preloadData, String storeLocation, Resource dataFile){
+    public StoreSourceEhcacheImpl(String preloadData, String storeLocation, Resource dataFile, Resource configFile, String resourceStorePoolStr){
         this.preLoadData = preloadData;
         this.storeLocation = storeLocation;
         this.dataFile = dataFile;
+        this.configFile = configFile;
         System.out.println("Initializing Store Source");
         warcs = new HashMap<String, WarcResource>();
         WarcResource newWarc = new WarcResource("WEB-20160603014432482-00000-9193-ubuntu-8443.warc",
                 "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\WEB-20160603014432482-00000-9193-ubuntu-8443.warc");
+
+        resourceStorePool = resourceStorePoolStr.split(",");
+
+        try {
+            initialiseCache();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 //        warcs.put("WEB-20160603014432482-00000-9193-ubuntu-8443.warc", newWarc);
 //        this.memcacheConn = memcacheConn;
         if(this.preLoadData.equals("true")){
             System.out.println("Pre-loading store with static data.");
-            preloadData();
+            try {
+//                startConnection(false);
+                preloadData();
+//                endConnection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
-        // Disable spymemcached logging
-        Properties systemProperties = System.getProperties();
-//        systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.Log4JLogger");
-        System.setProperty("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.SunLogger");
-        java.util.logging.Logger.getLogger("net.spy.memcached").setLevel(Level.OFF);
-        System.setProperties(systemProperties);
     }
 
+    private void initialiseCache() throws IOException {
+//        URL configUrl = getClass().getResource("/resourcestore_ehcache.xml");
+//        Resource dataResource = resourceLoader.getResource("classpath:path-index.txt");
+        Configuration xmlConfig = new XmlConfiguration(configFile.getURL());
+        cacheManager = CacheManagerBuilder.newCacheManager(xmlConfig);
+        cacheManager.init();
+        storeCache = cacheManager.getCache(cacheName, String.class, String.class);
+    }
 
     public boolean warcExists(String name){
-        if(name != null && warcs.containsKey(name))
+        if(name != null && storeCache.containsKey(name))
             return true;
 
         return false;
     }
 
-    public String getWarc(String name, Boolean useStorePool){
+    public String getWarc(String name, Boolean useStorePool) throws Exception {
 
         if(storeLocation.equals("remote")){
 
-            if(!isConnectionAlive()){
-                return null;
-            }
+            if(storeCache != null){
+                String value = storeCache.get(name);
+                if(value != null) {
+                    return value;
+                }
+                // Lookup in OWResourceStore pool
+                else if(useStorePool){
+                    // if additional resource store instances configured
+                    for(String host : resourceStorePool){
+                        httpConnector = new HttpConnectionService(host);
+                        String path = httpConnector.get("/lookup/"+name);
+                        if(path != null){
+                            // if found then add to local ehcache instance
+                            addWarc(name, path);
+                            return path;
+                        }
+                    }
 
-            CASValue<Object> casVal = memcacheConn.getAndTouch(name, 21600);
-            if(casVal != null){
-                String value = (String) casVal.getValue();
-                return value;
+                }
             }
         }
         else if(storeLocation.equals("local")){
@@ -85,24 +122,11 @@ public class StoreSourceMemcacheImpl implements StoreSource{
             }
         }
 
-//        try {
-//            memcacheConn.getConnection().shutdown();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        if(warcExists(name)){
-//            return warcs.get(name).getFilepath();
-//        }
         return null;
     }
 
     public boolean addWarc(String name, String path){
-//        MemcachedClient memcacheConn = MemcachedClientFactory.getNewConnection();
-        if(!isConnectionAlive()){
-            return false;
-//            startConnection();
-        }
+
         String filePath = path;
 //        if(warcExists(name)){
 //            // Update timestamp
@@ -127,19 +151,17 @@ public class StoreSourceMemcacheImpl implements StoreSource{
             filePath = "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\" + name;
         }
 
-        OperationFuture<Boolean> op = memcacheConn.set(name, 21600, filePath);
-        OperationStatus os = op.getStatus();
-//        memcacheConn.shutdown(1)
-        return os.isSuccess();
-//            warcs.put(name, newWarc);
+        if(storeCache != null){
+            if(name != null && !name.isEmpty() && path != null && !path.isEmpty()){
+                storeCache.put(name, path);
+                String value = storeCache.get(name);
+                if(path.equals(value)){
+                    return true;
+                }
+            }
+        }
 
-//        try {
-//            memcacheConn.getConnection().shutdown();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//            return true;
-//        }
+        return false;
     }
 
     private void preloadData() {
@@ -167,54 +189,31 @@ public class StoreSourceMemcacheImpl implements StoreSource{
             log.error("Unable to read preload data.", e);
         }
 
-        // Push pre-loaded data to memcache instance
+        // Push pre-loaded data to ehcache
         if(storeLocation.equals("remote")){
             try {
-                MemcachedClient conn = MemcachedClientFactory.getNewConnection();
-
                 for(String name : warcs.keySet()){
-                    log.debug("Preloading resource into memcache server: " + name);
-                    OperationFuture<Boolean> op = conn.set(name, 21600, warcs.get(name).getFilepath());
-
+                    log.debug("Preloading resource into Ehcahce server: " + name);
+                    addWarc(name, warcs.get(name).getFilepath());
                 }
-
-                // Closing the connection seems to break the set functionality
-//                conn.getConnection().shutdown();
             } catch (Exception e) {
-                log.error("Unable to preload memcache server.", e);
+                log.error("Unable to preload Ehcahce.", e);
             }
         }
 
     }
 
-    public void startConnection(boolean flag) throws Exception{
-        memcacheConn = MemcachedClientFactory.getNewConnection();
-    }
+    // Placeholder
+    public void startConnection(boolean flag) throws Exception{}
 
-    public void endConnection()throws Exception {
-        memcacheConn.shutdown(1, TimeUnit.SECONDS);
-    }
+    // Placeholder
+    public void endConnection()throws Exception {}
 
     public boolean isConnectionAlive(){
-        if(memcacheConn == null){
+        if(storeCache == null){
             return false;
         }
-        return memcacheConn.getConnection().isAlive();
+        return true;
     }
 
-    public boolean supportsHashChecking() {
-        return false;
-    }
-
-    public boolean hashIndexExists(String value) throws Exception {
-        return false;
-    }
-
-    public void addHashIndex(String hash) throws Exception {
-
-    }
-
-    public void updateHashIndex(String hash) throws Exception {
-
-    }
 }

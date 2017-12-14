@@ -11,7 +11,7 @@ public interface StoreSource {
 
     boolean warcExists(String name);
 
-    String getWarc(String name) throws Exception;
+    String getWarc(String name, Boolean useResourceStorePool) throws Exception;
 
     boolean addWarc(String name, String path) throws Exception;
 
@@ -21,11 +21,4 @@ public interface StoreSource {
 
     boolean isConnectionAlive() throws Exception;
 
-    boolean supportsHashChecking();
-
-    boolean hashIndexExists(String value) throws Exception;
-
-    void addHashIndex(String hash) throws Exception;
-
-    void updateHashIndex(String hash) throws Exception;
 }
