@@ -1,9 +1,7 @@
 package nz.govt.natlib.ndha;
 
-import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import net.spy.memcached.MemcachedClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.ui.ModelMap;
@@ -16,7 +14,6 @@ import java.lang.reflect.Type;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,7 +35,8 @@ public class StoreController {
 	private static final Logger log = LogManager.getLogger(StoreController.class);
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 	private static Map<String, String> warcs = new HashMap<String, String>();
-	private StoreSource source = (StoreSource) ctx.getBean("storeSource");
+	private StoreSource localSource = (StoreSource) ctx.getBean("storeSource");
+	private RemoteSource remoteSource = (RemoteSource) ctx.getBean("remoteSource");
 
 	public StoreController(){
 		warcs.put("WEB-20160603014432482-00000-9193-ubuntu-8443.warc", "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\WEB-20160603014432482-00000-9193-ubuntu-8443.warc");
@@ -154,6 +152,28 @@ public class StoreController {
 
 			// Lookup warc file path
 			Path warcPath = getWarc(filename, true);
+			
+			if(warcPath == null){
+				RemoteSource remoteSource = new RemoteSourceRosettaImpl();
+				// Check availability, access level
+				if(remoteSource.lookup(filename)){
+
+					if(remoteSource.accessAllowed()){
+
+
+						warcPath = remoteSource.getWarc(filename);
+
+						Map<String, String> warcPaths = remoteSource.getAllWarcs(filename);
+					}
+					else {
+						response.sendError(404, "Warc file not available due to access rights");
+						log.warn("Requested filename was not available due to access rights: " + filename);
+						terminateStoreConnection();
+						return;
+					}
+				}
+			}
+			
 			if(warcPath == null){
 				response.sendError(404, "Warc filename requested was not found");
 				log.warn("Requested filename was not found in Resource Store: " + filename);
@@ -281,7 +301,7 @@ public class StoreController {
 	private void establishStoreConnection(boolean flag){
 		log.debug("Establishing new connection to Store");
 		try {
-			source.startConnection(flag);
+			localSource.startConnection(flag);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -290,18 +310,18 @@ public class StoreController {
 	private void terminateStoreConnection() {
 		log.debug("Terminating connection to Store");
 		try {
-			source.endConnection();
+			localSource.endConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	private boolean addWarc(String filename, String filePath) throws Exception {
-		return source.addWarc(filename, filePath);
+		return localSource.addWarc(filename, filePath);
 	}
 
 	private Path getWarc(String filename, Boolean useStorePool) throws Exception {
-		String warcPath = source.getWarc(filename, useStorePool);
+		String warcPath = localSource.getWarc(filename, useStorePool);
 		if(warcPath != null){
 			return Paths.get(warcPath);
 		}

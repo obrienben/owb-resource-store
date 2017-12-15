@@ -1,5 +1,6 @@
 package nz.govt.natlib.ndha;
 
+import java.nio.file.Path;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
     }
 
     @Override
-    public String getWarc(String name) throws Exception {
+    public Path getWarc(String name) throws Exception {
         return null;
     }
 

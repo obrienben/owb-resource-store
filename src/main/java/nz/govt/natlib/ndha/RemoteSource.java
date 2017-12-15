@@ -1,6 +1,7 @@
 package nz.govt.natlib.ndha;
 
 
+import java.nio.file.Path;
 import java.util.Map;
 
 /**
@@ -30,7 +31,7 @@ public interface RemoteSource {
      * @return
      * @throws Exception
      */
-    String getWarc(String filename) throws Exception;
+    Path getWarc(String filename) throws Exception;
 
     /**
      * Returns a map of warc filenames and paths, which contains the searched for warc filename, and
