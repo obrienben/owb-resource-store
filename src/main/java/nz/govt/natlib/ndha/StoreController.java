@@ -36,7 +36,7 @@ public class StoreController {
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 	private static Map<String, String> warcs = new HashMap<String, String>();
 	private StoreSource localSource = (StoreSource) ctx.getBean("storeSource");
-	private RemoteSource remoteSource = (RemoteSource) ctx.getBean("remoteSource");
+//	private RemoteSource remoteSource = (RemoteSource) ctx.getBean("remoteSource");
 
 	public StoreController(){
 		warcs.put("WEB-20160603014432482-00000-9193-ubuntu-8443.warc", "C:\\\\wct\\\\openwayback2.2\\\\store\\\\mwg\\\\WEB-20160603014432482-00000-9193-ubuntu-8443.warc");
@@ -152,7 +152,8 @@ public class StoreController {
 
 			// Lookup warc file path
 			Path warcPath = getWarc(filename, true);
-			
+
+			// Check remote source
 			if(warcPath == null){
 				RemoteSource remoteSource = new RemoteSourceRosettaImpl();
 				// Check availability, access level

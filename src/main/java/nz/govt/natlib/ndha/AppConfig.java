@@ -27,36 +27,15 @@ public class AppConfig {
     @Value("${resourcestore.storeLocation}")
     public String storeLocation;
 
-    @Value("${resourcestore.memcacheHost}")
-    public String memcacheHost;
-
-    @Value("${resourcestore.memcachePort}")
-    public String memcachePort;
-
     @Value("${resourcestore.resourceStorePool}")
     public String resourceStorePool;
 
     @Bean
     public StoreSource storeSource(){
         log.info("Configuring Store Source");
-//        MemcachedClientFactory.setConnectionDetails(memcacheHost, memcachePort);
         Resource dataResource = resourceLoader.getResource("classpath:path-index.txt");
         Resource configResource = resourceLoader.getResource("classpath:resourcestore_ehcache.xml");
         return new StoreSourceEhcacheImpl(preloadData, storeLocation, dataResource, configResource, resourceStorePool);
-//        return new StoreSourceMemcacheImpl(preloadData, storeLocation, dataResource);
     }
-
-//    @Bean
-//    public MemcachedClient memcache(){
-//        MemcachedClient mem = null;
-//        try {
-//            mem = new MemcachedClient(new BinaryConnectionFactory(), AddrUtil.getAddresses("192.168.127.135:11211"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            // TODO Log error that can't get connection
-//            return null;
-//        }
-//        return mem;
-//    }
 
 }
