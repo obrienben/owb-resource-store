@@ -57,16 +57,19 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Rosetta Web Service dependency for Delivery Services -->
+        <!-- call mvn install:install-file -Dfile=./lib/DeliveryAccessWS-5.3.jar -DgroupId=com.exlibris.dps -DartifactId=DeliveryAccessWS -Dversion=5.3 -Dpackaging=jar -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.5</version>
+            <groupId>com.exlibris.dps</groupId>
+            <artifactId>DeliveryAccessWS</artifactId>
+            <version>5.3</version>
         </dependency>
 
+        <!-- Dependency used for parsing the METS xml for an IE/FILE -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.5</version>
+            <groupId>nz.govt.natlib.ndha.rosettaIEMetaDataParser</groupId>
+            <artifactId>RosettaIEMetaDataParser</artifactId>
+            <version>1.8</version>
         </dependency>
 
         <!--<dependency>-->
@@ -74,6 +77,24 @@
             <!--<artifactId>rocksdbjni</artifactId>-->
             <!--<version>4.5.1</version>-->
         <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>

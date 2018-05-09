@@ -36,9 +36,8 @@ public interface RemoteSource {
     /**
      * Returns a map of warc filenames and paths, which contains the searched for warc filename, and
      * any associated warcs required to view the web harvest the original warc belongs to.
-     * @param filename
      * @return
      * @throws Exception
      */
-    Map<String,String> getAllWarcs(String filename);
+    Map<String,String> getAllWarcs();
 }
