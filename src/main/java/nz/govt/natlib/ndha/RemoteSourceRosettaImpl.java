@@ -76,33 +76,44 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
         return filePaths;
     }
 
+    private String getIeMetsString(String dps_pid) throws MalformedURLException, Exception_Exception {
+        String dps_session = null;
+        String ieMetsXml = null;
+
+        // Initialize the Web Service call
+        deliveryWS = new DeliveryAccessWS_Service(new URL("http://" + NDHA_WEB_SERVICES_HOSTNAME + DELIVERY_WS_WSDL_URL),
+                new QName("http://dps.exlibris.com/", "DeliveryAccessWS")).getDeliveryAccessWSPort();
+
+        if (deliveryWS != null) {
+            log.info("Rosetta Delivery Web Service initialized for pid:[" + dps_pid + "]");
+
+            dps_session = generateDPSSession(dps_pid);
+            log.info("New Rosetta Delivery session:[" + dps_session + "] generated for pid:[" + dps_pid + "]");
+
+            // Retrieve the rosetta IE METS xml to retrieve the file path
+            ieMetsXml = deliveryWS.getExtendedIEByDVS(dps_session, 0);
+
+            if (ieMetsXml != null) {
+                log.debug("Received rosetta IE METS xml:\r\n" + ieMetsXml + "\r\n");
+                return ieMetsXml;
+            }
+        }
+        return null;
+    }
+
 
     private boolean processRequest(String dps_pid) {
-
-        String dps_dvs = null;
 
         // Ensure the DPS PID and DPS SESSION is not null
         if ( (dps_pid != null) && (!(dps_pid.isEmpty())) ) {
 
-//            DeliveryAccessWS deliveryWS = null;
             String ieMetsXml = null;
 
             try {
-                // Initialize the Web Service call
-                deliveryWS = initializeDeliveryWS();
 
-                if (deliveryWS != null) {
+                ieMetsXml = getIeMetsString(dps_pid);
 
-                    log.info("Rosetta Delivery Web Service initialized for pid:[" + dps_pid + "]");
-
-                    dps_dvs = generateDPSSession(dps_pid);
-                    log.info("New Rosetta Delivery session:[" + dps_dvs + "] generated for pid:[" + dps_pid + "]");
-
-                    // Retrieve the rosetta IE METS xml to retrieve the file path
-                    ieMetsXml = getIeMetsXml(dps_dvs);
-//                  ieMetsXml = deliveryWS.getExtendedIEByDVS(dps_dvs, 0);
-
-                    log.debug("Received rosetta IE METS xml:\r\n" + ieMetsXml + "\r\n");
+                if (ieMetsXml != null) {
 
                     // Parse the IE Mets xml to retrieve the file path for the given file ID
                     IEModel ieObj = new DOMBasedIEMetaDataParser().parseIEMetadata(dps_pid, ieMetsXml);
@@ -161,16 +172,10 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
         return false;
     }
 
-    protected DeliveryAccessWS initializeDeliveryWS() throws MalformedURLException {
-        return new DeliveryAccessWS_Service(new URL("http://" + NDHA_WEB_SERVICES_HOSTNAME + DELIVERY_WS_WSDL_URL),
-                new QName("http://dps.exlibris.com/", "DeliveryAccessWS")).getDeliveryAccessWSPort();
-//        deliveryWS = new DeliveryAccessWS_Service().getDeliveryAccessWSPort();
-    }
-
     /*
-	 * Method to generate the dps_dvs Rosetta session value for a give PID if the session is not present
+	 * Method to generate the dps_dvs Rosetta session value for a given PID if the session is not present
 	 */
-    protected String generateDPSSession(String pid) {
+    private String generateDPSSession(String pid) {
 
         String deliveryUrl = "http://" + NDHA_WEB_SERVICES_HOSTNAME + DELIVERY_VIEWER_URL + pid;
 
@@ -222,9 +227,6 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
         }
     }
 
-    protected String getIeMetsXml(String dps_session) throws Exception_Exception {
-        return deliveryWS.getExtendedIEByDVS(dps_session, 0);
-    }
 
     public static void main(String[] args) {
 
