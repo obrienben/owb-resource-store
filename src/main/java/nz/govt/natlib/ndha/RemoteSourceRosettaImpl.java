@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.commons.io.IOUtils;
 
 import javax.xml.namespace.QName;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -67,6 +68,9 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
 
     @Override
     public Path getWarc(String name) throws Exception {
+        if(!filePaths.containsKey(name)){
+            return null;
+        }
         Path warcPath = Paths.get(filePaths.get(name));
         return warcPath;
     }
@@ -76,7 +80,7 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
         return filePaths;
     }
 
-    private String getIeMetsString(String dps_pid) throws MalformedURLException, Exception_Exception {
+    private String getIeMetsString(String dps_pid) throws IOException, Exception_Exception {
         String dps_session = null;
         String ieMetsXml = null;
 
@@ -175,13 +179,13 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
     /*
 	 * Method to generate the dps_dvs Rosetta session value for a given PID if the session is not present
 	 */
-    private String generateDPSSession(String pid) {
+    private String generateDPSSession(String pid) throws IOException {
 
         String deliveryUrl = "http://" + NDHA_WEB_SERVICES_HOSTNAME + DELIVERY_VIEWER_URL + pid;
 
         log.info("Rosetta DeliveryURL created: " + deliveryUrl);
 
-        try {
+//        try {
             String rosettaDeliveryResponse = "";
             URL url = new URL(deliveryUrl);
             URLConnection urlConn = url.openConnection();
@@ -221,10 +225,10 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
                 return (parameterNameValuePair == null ? null : parameterNameValuePair.replace("dps_dvs=", ""));
             }
 
-        } catch (Exception ex) {
-            log.error("Error occurred while trying to generate a rosetta session. " + ex.getMessage());
-            return null;
-        }
+//        } catch (Exception ex) {
+//            log.error("Error occurred while trying to generate a rosetta session. " + ex.getMessage());
+//            return null;
+//        }
     }
 
 
