@@ -1,0 +1,1139 @@
+<mets:mets xmlns:mets="http://www.loc.gov/METS/">
+  <mets:dmdSec ID="ie-dmd">
+    <mets:mdWrap MDTYPE="DC">
+      <mets:xmlData>
+        <dc:record xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <dc:title>http://www.test.com/</dc:title>
+          <dc:date>2017-08-03 10:07:09.0</dc:date>
+          <dcterms:available>2017-08-03 10:07:09.0</dcterms:available>
+          <dc:rights>100</dc:rights>
+          <dc:type>InteractiveResource</dc:type>
+          <dc:format>text</dc:format>
+        </dc:record>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:amdSec ID="REP11111111-amd">
+    <mets:techMD ID="REP11111111-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="generalRepCharacteristics">
+              <record>
+                <key id="preservationType">PRESERVATION_MASTER</key>
+                <key id="usageType">VIEW</key>
+                <key id="DigitalOriginal">true</key>
+                <key id="RevisionNumber">1</key>
+              </record>
+            </section>
+            <section id="internalIdentifier">
+              <record>
+                <key id="internalIdentifierType">SIPID</key>
+                <key id="internalIdentifierValue">111111</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">PID</key>
+                <key id="internalIdentifierValue">REP11111111</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">DepositSetID</key>
+                <key id="internalIdentifierValue">222222</key>
+              </record>
+            </section>
+            <section id="objectCharacteristics">
+              <record>
+                <key id="objectType">REPRESENTATION</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="REP11111111-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="REP11111111-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="metaData">
+              <record>
+                <key id="MID">DNX_REP11111111</key>
+                <key id="UUID">1913903025</key>
+                <key id="metadataType">21</key>
+              </record>
+              <record>
+                <key id="MID">REP11111111-1</key>
+                <key id="UUID">1913903022</key>
+                <key id="metadataType">32</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="REP11111111-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="FL18894161-amd">
+    <mets:techMD ID="FL18894161-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="objectCharacteristics">
+              <record>
+                <key id="groupID">9</key>
+                <key id="objectType">FILE</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:22</key>
+                <key id="modifiedBy"></key>
+                <key id="owner">CRS00.INS00.DPR00</key>
+              </record>
+            </section>
+            <section id="internalIdentifier">
+              <record>
+                <key id="internalIdentifierType">SIPID</key>
+                <key id="internalIdentifierValue">111111</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">PID</key>
+                <key id="internalIdentifierValue">FL18894161</key>
+              </record>
+            </section>
+            <section id="generalFileCharacteristics">
+              <record>
+                <key id="label">strippedcrawl.log</key>
+                <key id="fileLocationType">FILE</key>
+                <key id="fileOriginalName">strippedcrawl.log</key>
+                <key id="fileOriginalPath">strippedcrawl.log</key>
+                <key id="fileOriginalID">/server/storage/deposit/content/streams/strippedcrawl.log</key>
+                <key id="fileExtension">log</key>
+                <key id="fileSizeBytes">150279</key>
+                <key id="formatLibraryId">x-fmt/62</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="FL18894161-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="FL18894161-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="metaData">
+              <record>
+                <key id="MID">DNX_FL18894161</key>
+                <key id="UUID">1913903043</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:24</key>
+                <key id="metadataType">21</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="FL18894161-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="event">
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:27</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=MD5;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894161;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=strippedcrawl.log;DATE=03 08 2017 11:55:27;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:27</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=SHA1;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894161;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=strippedcrawl.log;DATE=03 08 2017 11:55:27;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:27</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=CRC32;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894161;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=strippedcrawl.log;DATE=03 08 2017 11:55:27;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:27</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">24</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Virus check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_VC_CLAMAV</key>
+                <key id="eventOutcomeDetail1">DEPOSIT_ACTIVITY_ID=337046;PID=FL18894161;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=7;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:27</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">198</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Automatically Set Format Library ID on File</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">input.formatIdList eq x-fmt/62,fmt/904;input.fileExtension eq log;input.producerId eq any;input.pluginInstanceName eq any;input.identificationMethod eq any;output.formatId eq x-fmt/62</key>
+                <key id="eventOutcomeDetail1">FORMAT_ID=x-fmt/62;FILE_EXTENSION=log;DEPOSIT_ACTIVITY_ID=337046;PID=FL18894161;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=48;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:27</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">25</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Format Identification performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_DROID , Version 6.1.5 , Signature version Binary SF v.90/ Container SF v.20</key>
+                <key id="eventOutcomeDetail1">FORMAT_ID=x-fmt/62;FILE_EXTENSION=log;DEPOSIT_ACTIVITY_ID=337046;PID=FL18894161;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=48;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="FL18894171-amd">
+    <mets:techMD ID="FL18894171-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="objectCharacteristics">
+              <record>
+                <key id="groupID">19</key>
+                <key id="objectType">FILE</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:22</key>
+                <key id="modifiedBy"></key>
+                <key id="owner">CRS00.INS00.DPR00</key>
+              </record>
+            </section>
+            <section id="internalIdentifier">
+              <record>
+                <key id="internalIdentifierType">SIPID</key>
+                <key id="internalIdentifierValue">111111</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">PID</key>
+                <key id="internalIdentifierValue">FL18894171</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">DepositSetID</key>
+                <key id="internalIdentifierValue">337046</key>
+              </record>
+            </section>
+            <section id="generalFileCharacteristics">
+              <record>
+                <key id="label">IAH-20170802233027-00001-blake-z1.cdx</key>
+                <key id="fileLocationType">FILE</key>
+                <key id="fileOriginalName">IAH-20170802233027-00001-blake-z1.cdx</key>
+                <key id="fileOriginalPath">IAH-20170802233027-00001-blake-z1.cdx</key>
+                <key id="fileOriginalID">/server/storage/deposit/content/streams/IAH-20170802233027-00001-blake-z1.cdx</key>
+                <key id="fileExtension">cdx</key>
+                <key id="fileSizeBytes">368058</key>
+                <key id="formatLibraryId">fmt/869</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="FL18894171-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="FL18894171-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="metaData">
+              <record>
+                <key id="MID">DNX_FL18894171</key>
+                <key id="UUID">1913903042</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:25</key>
+                <key id="metadataType">21</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="FL18894171-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="event">
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:28</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=MD5;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894171;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233027-00001-blake-z1.cdx;DATE=03 08 2017 11:55:28;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:28</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=SHA1;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894171;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233027-00001-blake-z1.cdx;DATE=03 08 2017 11:55:28;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:28</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=CRC32;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894171;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233027-00001-blake-z1.cdx;DATE=03 08 2017 11:55:28;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:28</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">24</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Virus check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_VC_CLAMAV</key>
+                <key id="eventOutcomeDetail1">DEPOSIT_ACTIVITY_ID=337046;PID=FL18894171;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=7;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:28</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">198</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Automatically Set Format Library ID on File</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">input.producerId eq any;input.formatIdList eq any;input.fileExtension eq cdx;input.pluginInstanceName eq any;input.identificationMethod eq any;input.mimeType eq any;input.fileSize eq any;input.createDate eq any;input.agent eq any;input.method eq any;output.formatId eq fmt/869</key>
+                <key id="eventOutcomeDetail1">FORMAT_ID=fmt/869;FILE_EXTENSION=cdx;DEPOSIT_ACTIVITY_ID=337046;PID=FL18894171;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=48;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:28</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">25</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Format Identification performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_DROID , Version 6.1.5 , Signature version Binary SF v.90/ Container SF v.20</key>
+                <key id="eventOutcomeDetail1">FORMAT_ID=fmt/869;FILE_EXTENSION=cdx;DEPOSIT_ACTIVITY_ID=337046;PID=FL18894171;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=48;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="FL18894155-amd">
+    <mets:techMD ID="FL18894155-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="objectCharacteristics">
+              <record>
+                <key id="groupID">3</key>
+                <key id="objectType">FILE</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:22</key>
+                <key id="modifiedBy"></key>
+                <key id="owner">CRS00.INS00.DPR00</key>
+              </record>
+            </section>
+            <section id="internalIdentifier">
+              <record>
+                <key id="internalIdentifierType">SIPID</key>
+                <key id="internalIdentifierValue">111111</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">PID</key>
+                <key id="internalIdentifierValue">FL18894155</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">DepositSetID</key>
+                <key id="internalIdentifierValue">337046</key>
+              </record>
+            </section>
+            <section id="generalFileCharacteristics">
+              <record>
+                <key id="label">IAH-20170802233027-00000-blake-z1.warc</key>
+                <key id="fileLocationType">FILE</key>
+                <key id="fileOriginalName">IAH-20170802233027-00000-blake-z1.warc</key>
+                <key id="fileOriginalPath">IAH-20170802233027-00000-blake-z1.warc</key>
+                <key id="fileOriginalID">/server/storage/deposit/content/streams/IAH-20170802233027-00000-blake-z1.warc</key>
+                <key id="fileExtension">warc</key>
+                <key id="fileSizeBytes">64799</key>
+                <key id="formatLibraryId">fmt/289</key>
+              </record>
+            </section>
+            <section id="significantProperties">
+              <record>
+                <key id="significantPropertiesType">web.creatingSoftware</key>
+                <key id="significantPropertiesValue">Heritrix</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.createdDate</key>
+                <key id="significantPropertiesValue">2017-08-02T22:07:06Z</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.robotPolicy</key>
+                <key id="significantPropertiesValue">ignore</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.warcFormat</key>
+                <key id="significantPropertiesValue">WARC File Format 0.17</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.conformsTo</key>
+                <key id="significantPropertiesValue">http://crawler.archive.org/warc/0.17/WARC0.17ISO.doc</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.warcDate</key>
+                <key id="significantPropertiesValue">2017-08-02T23:30:27Z</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.compressed</key>
+                <key id="significantPropertiesValue">false</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.mimeReport</key>
+                <key id="significantPropertiesValue">not recorded:2</key>
+              </record>
+            </section>
+            <section id="fileValidation">
+              <record>
+                <key id="pluginName">nz.govt.natlib.adapter.arc.WarcAdapter</key>
+                <key id="format">WARC File Format 0.17</key>
+                <key id="mimeType">application/warc</key>
+                <key id="isValid">true</key>
+                <key id="isWellFormed">true</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="FL18894155-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="FL18894155-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="metaData">
+              <record>
+                <key id="MID">DNX_FL18894155</key>
+                <key id="UUID">1913903026</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:23</key>
+                <key id="metadataType">21</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="FL18894155-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="event">
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:31</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=MD5;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894155;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233027-00000-blake-z1.warc;DATE=03 08 2017 11:55:31;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:31</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=SHA1;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894155;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233027-00000-blake-z1.warc;DATE=03 08 2017 11:55:31;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:31</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=CRC32;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894155;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233027-00000-blake-z1.warc;DATE=03 08 2017 11:55:31;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:31</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">24</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Virus check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_VC_CLAMAV</key>
+                <key id="eventOutcomeDetail1">DEPOSIT_ACTIVITY_ID=337046;PID=FL18894155;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=7;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:31</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">25</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Format Identification performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_DROID , Version 6.1.5 , Signature version Binary SF v.90/ Container SF v.20</key>
+                <key id="eventOutcomeDetail1">FORMAT_ID=fmt/289;IDENTIFICATION_METHOD=SIGNATURE;FILE_EXTENSION=warc;DEPOSIT_ACTIVITY_ID=337046;PID=FL18894155;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=48;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:32</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">165</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Technical Metadata extraction performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">Adapter: nz.govt.natlib.adapter.warc.WarcAdapter, Version 1.0, Plugin Version 1</key>
+                <key id="eventOutcomeDetail1">DEPOSIT_ACTIVITY_ID=337046;PID=FL18894155;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=49;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="FL18894154-amd">
+    <mets:techMD ID="FL18894154-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="objectCharacteristics">
+              <record>
+                <key id="groupID">2</key>
+                <key id="objectType">FILE</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:22</key>
+                <key id="modifiedBy"></key>
+                <key id="owner">CRS00.INS00.DPR00</key>
+              </record>
+            </section>
+            <section id="internalIdentifier">
+              <record>
+                <key id="internalIdentifierType">SIPID</key>
+                <key id="internalIdentifierValue">111111</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">PID</key>
+                <key id="internalIdentifierValue">FL18894154</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">DepositSetID</key>
+                <key id="internalIdentifierValue">337046</key>
+              </record>
+            </section>
+            <section id="generalFileCharacteristics">
+              <record>
+                <key id="label">IAH-20170802233035-00002-blake-z1.warc</key>
+                <key id="fileLocationType">FILE</key>
+                <key id="fileOriginalName">IAH-20170802233035-00002-blake-z1.warc</key>
+                <key id="fileOriginalPath">IAH-20170802233035-00002-blake-z1.warc</key>
+                <key id="fileOriginalID">/server/storage/deposit/content/streams/IAH-20170802233035-00002-blake-z1.warc</key>
+                <key id="fileExtension">warc</key>
+                <key id="fileSizeBytes">1093319</key>
+                <key id="formatLibraryId">fmt/289</key>
+              </record>
+            </section>
+            <section id="significantProperties">
+              <record>
+                <key id="significantPropertiesType">web.creatingSoftware</key>
+                <key id="significantPropertiesValue">Heritrix</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.createdDate</key>
+                <key id="significantPropertiesValue">2017-08-02T22:07:06Z</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.robotPolicy</key>
+                <key id="significantPropertiesValue">ignore</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.warcFormat</key>
+                <key id="significantPropertiesValue">WARC File Format 0.17</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.conformsTo</key>
+                <key id="significantPropertiesValue">http://crawler.archive.org/warc/0.17/WARC0.17ISO.doc</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.warcDate</key>
+                <key id="significantPropertiesValue">2017-08-02T23:30:35Z</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.compressed</key>
+                <key id="significantPropertiesValue">false</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.mimeReport</key>
+                <key id="significantPropertiesValue">not recorded:3</key>
+              </record>
+            </section>
+            <section id="fileValidation">
+              <record>
+                <key id="format">WARC File Format 0.17</key>
+                <key id="mimeType">application/warc</key>
+                <key id="isValid">true</key>
+                <key id="isWellFormed">true</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="FL18894154-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="FL18894154-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="metaData">
+              <record>
+                <key id="MID">DNX_FL18894154</key>
+                <key id="UUID">1913903038</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:23</key>
+                <key id="metadataType">21</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="FL18894154-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="event">
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:32</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=MD5;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894154;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233035-00002-blake-z1.warc;DATE=03 08 2017 11:55:32;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:32</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=SHA1;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894154;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233035-00002-blake-z1.warc;DATE=03 08 2017 11:55:32;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:32</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=CRC32;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894154;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233035-00002-blake-z1.warc;DATE=03 08 2017 11:55:32;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:32</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">24</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Virus check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_VC_CLAMAV</key>
+                <key id="eventOutcomeDetail1">DEPOSIT_ACTIVITY_ID=337046;PID=FL18894154;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=7;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:32</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">25</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Format Identification performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_DROID , Version 6.1.5 , Signature version Binary SF v.90/ Container SF v.20</key>
+                <key id="eventOutcomeDetail1">FORMAT_ID=fmt/289;IDENTIFICATION_METHOD=SIGNATURE;FILE_EXTENSION=warc;DEPOSIT_ACTIVITY_ID=337046;PID=FL18894154;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=48;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:32</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">165</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Technical Metadata extraction performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">Adapter: nz.govt.natlib.adapter.warc.WarcAdapter, Version 1.0, Plugin Version 1</key>
+                <key id="eventOutcomeDetail1">DEPOSIT_ACTIVITY_ID=337046;PID=FL18894154;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=49;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="FL18894153-amd">
+    <mets:techMD ID="FL18894153-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="objectCharacteristics">
+              <record>
+                <key id="groupID">1</key>
+                <key id="objectType">FILE</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:22</key>
+                <key id="modifiedBy"></key>
+                <key id="owner">CRS00.INS00.DPR00</key>
+              </record>
+            </section>
+            <section id="internalIdentifier">
+              <record>
+                <key id="internalIdentifierType">SIPID</key>
+                <key id="internalIdentifierValue">111111</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">PID</key>
+                <key id="internalIdentifierValue">FL18894153</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">DepositSetID</key>
+                <key id="internalIdentifierValue">337046</key>
+              </record>
+            </section>
+            <section id="fileFormat">
+              <record>
+                <key id="agent">REG_SA_DROID</key>
+                <key id="formatRegistry">PRONOM</key>
+                <key id="formatRegistryId">fmt/289</key>
+                <key id="formatName">fmt/289</key>
+                <key id="formatDescription">WARC</key>
+                <key id="exactFormatIdentification">true</key>
+                <key id="agentVersion">6.1.5</key>
+                <key id="agentSignatureVersion">Binary SF v.90/ Container SF v.20</key>
+                <key id="formatLibraryVersion">5.209</key>
+              </record>
+            </section>
+            <section id="generalFileCharacteristics">
+              <record>
+                <key id="label">IAH-20170802233027-00001-blake-z1.warc</key>
+                <key id="fileLocationType">FILE</key>
+                <key id="fileOriginalName">IAH-20170802233027-00001-blake-z1.warc</key>
+                <key id="fileOriginalPath">IAH-20170802233027-00001-blake-z1.warc</key>
+                <key id="fileOriginalID">/server/storage/deposit/content/streams/IAH-20170802233027-00001-blake-z1.warc</key>
+                <key id="fileExtension">warc</key>
+                <key id="fileSizeBytes">35806245</key>
+                <key id="formatLibraryId">fmt/289</key>
+              </record>
+            </section>
+            <section id="significantProperties">
+              <record>
+                <key id="significantPropertiesType">web.creatingSoftware</key>
+                <key id="significantPropertiesValue">Heritrix</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.createdDate</key>
+                <key id="significantPropertiesValue">2017-08-02T22:07:06Z</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.robotPolicy</key>
+                <key id="significantPropertiesValue">ignore</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.warcFormat</key>
+                <key id="significantPropertiesValue">WARC File Format 0.17</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.conformsTo</key>
+                <key id="significantPropertiesValue">http://crawler.archive.org/warc/0.17/WARC0.17ISO.doc</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.warcDate</key>
+                <key id="significantPropertiesValue">2017-08-02T23:30:27Z</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.compressed</key>
+                <key id="significantPropertiesValue">false</key>
+              </record>
+              <record>
+                <key id="significantPropertiesType">web.mimeReport</key>
+                <key id="significantPropertiesValue">application/font-woff:1, application/font-woff2:1, application/javascript:17, application/vnd.ms-fontobject:2, application/x-font-ttf:1, application/xml:1, image/gif:2, image/jpeg:219, image/png:56, image/png; qs=0.7:2, image/svg+xml:3, not recorded:1247, text/css:16, text/html:6, text/html; charset=iso-8859-1:9, text/html; charset=utf-8:232, text/javascript:2, text/plain:12, text/plain; charset=utf-8:2, text/plain;charset=UTF-8:1, text/turtle; charset=utf-8:2</key>
+              </record>
+            </section>
+            <section id="fileValidation">
+              <record>
+                <key id="format">WARC File Format 0.17</key>
+                <key id="mimeType">application/warc</key>
+                <key id="isValid">true</key>
+                <key id="isWellFormed">true</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="FL18894153-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="FL18894153-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="metaData">
+              <record>
+                <key id="MID">DNX_FL18894153</key>
+                <key id="UUID">1913903036</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:23</key>
+                <key id="metadataType">21</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="FL18894153-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="event">
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:33</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=MD5;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894153;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233027-00001-blake-z1.warc;DATE=03 08 2017 11:55:33;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:33</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=SHA1;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894153;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233027-00001-blake-z1.warc;DATE=03 08 2017 11:55:33;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:33</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">27</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Fixity check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_JAVA5_FIXITY</key>
+                <key id="eventOutcomeDetail1">IE_PID=IE11111111;COPY_ID=null;ALGORITHM_NAME=CRC32;DEPOSIT_ACTIVITY_ID=337046;FILE_PID=FL18894153;SIP_ID=111111;PRODUCER_ID=80349;FILE_NAME=IAH-20170802233027-00001-blake-z1.warc;DATE=03 08 2017 11:55:33;STATUS=SUCCESS;REP_PID=REP11111111;TASK_ID=1;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:35</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">24</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Virus check performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_VC_CLAMAV</key>
+                <key id="eventOutcomeDetail1">DEPOSIT_ACTIVITY_ID=337046;PID=FL18894153;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=7;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:35</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">25</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Format Identification performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="linkingAgentIdentifierValue1">REG_SA_DROID , Version 6.1.5 , Signature version Binary SF v.90/ Container SF v.20</key>
+                <key id="eventOutcomeDetail1">FORMAT_ID=fmt/289;IDENTIFICATION_METHOD=SIGNATURE;FILE_EXTENSION=warc;DEPOSIT_ACTIVITY_ID=337046;PID=FL18894153;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=48;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:36</key>
+                <key id="eventType">VALIDATION</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">165</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Technical Metadata extraction performed on file</key>
+                <key id="linkingAgentIdentifierType1">SOFTWARE</key>
+                <key id="eventOutcomeDetail1">DEPOSIT_ACTIVITY_ID=337046;PID=FL18894153;SIP_ID=111111;PRODUCER_ID=80349;TASK_ID=49;PROCESS_ID=;MF_ID=7;</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="ie-amd">
+    <mets:techMD ID="ie-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="webHarvesting">
+              <record>
+                <key id="harvestDate">2017-08-03 10:07:09.0</key>
+                <key id="primarySeedURL">http://www.test-harvest-test.co.nz/</key>
+                <key id="targetName">Test Harvest</key>
+              </record>
+            </section>
+            <section id="generalIECharacteristics">
+              <record>
+                <key id="IEEntityType">WebHarvestIE</key>
+                <key id="submissionReason">Web Harvesting</key>
+                <key id="status">ACTIVE</key>
+              </record>
+            </section>
+            <section id="internalIdentifier">
+              <record>
+                <key id="internalIdentifierType">SIPID</key>
+                <key id="internalIdentifierValue">111111</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">PID</key>
+                <key id="internalIdentifierValue">IE11111111</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">DepositSetID</key>
+                <key id="internalIdentifierValue">337046</key>
+              </record>
+              <record>
+                <key id="internalIdentifierType">handle</key>
+                <key id="internalIdentifierValue">1727.10/1227234</key>
+              </record>
+            </section>
+            <section id="objectCharacteristics">
+              <record>
+                <key id="objectType">INTELLECTUAL_ENTITY</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-09-27 14:05:14</key>
+                <key id="modifiedBy"></key>
+                <key id="owner">CRS00.INS00.DPR00</key>
+              </record>
+            </section>
+            <section id="objectIdentifier">
+              <record>
+                <key id="objectIdentifierType">ALMAMMS</key>
+                <key id="objectIdentifierValue">997260563502836</key>
+              </record>
+              <record>
+                <key id="objectIdentifierType">ALMAREP</key>
+                <key id="objectIdentifierValue">32279668060002836</key>
+              </record>
+              <record>
+                <key id="objectIdentifierType">OAI</key>
+                <key id="objectIdentifierValue">oai:nlnz.alma.exlibrisgroup.com:32279668060002836</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="ie-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="accessRightsPolicy">
+              <record>
+                <key id="policyId">100</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="ie-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="metaData">
+              <record>
+                <key id="MID">DNX_IE11111111</key>
+                <key id="UUID">1913903021</key>
+                <key id="creationDate">2017-08-03 11:55:22</key>
+                <key id="createdBy"></key>
+                <key id="modificationDate">2017-08-03 11:55:55</key>
+                <key id="modifiedBy">SYSTEM</key>
+                <key id="metadataType">21</key>
+                <key id="application">validationProfileBasic</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="ie-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="event">
+              <record>
+                <key id="eventDateTime">2017-08-03 11:55:55</key>
+                <key id="eventType">PROCESSING</key>
+                <key id="eventIdentifierType">DPS</key>
+                <key id="eventIdentifierValue">130</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventDescription">Object's Metadata Record Modified</key>
+                <key id="linkingAgentIdentifierType1">USER</key>
+                <key id="linkingAgentIdentifierValue1">SYSTEM</key>
+              </record>
+            </section>
+            <section id="producer">
+              <record>
+                <key id="defaultLanguage">en</key>
+                <key id="emailAddress"></key>
+                <key id="firstName"></key>
+                <key id="lastName"></key>
+                <key id="authorativeName"></key>
+                <key id="producerId"></key>
+                <key id="userIdAppId"></key>
+              </record>
+            </section>
+            <section id="producerAgent">
+              <record>
+                <key id="firstName">Web Curator</key>
+                <key id="lastName">Admin</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:fileSec>
+    <mets:fileGrp ID="REP11111111" ADMID="REP11111111-amd">
+      <mets:file ID="FL18894161" GROUPID="9" ADMID="FL18894161-amd">
+        <mets:FLocat LOCTYPE="URL" xlin:href="/server/storage/file/V1-FL18894161.log" xmlns:xlin="http://www.w3.org/1999/xlink"/>
+      </mets:file>
+      <mets:file ID="FL18894171" GROUPID="19" ADMID="FL18894171-amd">
+        <mets:FLocat LOCTYPE="URL" xlin:href="/server/storage/file/V1-FL18894171.cdx" xmlns:xlin="http://www.w3.org/1999/xlink"/>
+      </mets:file>
+      <mets:file ID="FL18894155" GROUPID="3" ADMID="FL18894155-amd">
+        <mets:FLocat LOCTYPE="URL" xlin:href="/server/storage/file/V1-FL18894155.warc" xmlns:xlin="http://www.w3.org/1999/xlink"/>
+      </mets:file>
+      <mets:file ID="FL18894154" GROUPID="2" ADMID="FL18894154-amd">
+        <mets:FLocat LOCTYPE="URL" xlin:href="/server/storage/file/V1-FL18894154.warc" xmlns:xlin="http://www.w3.org/1999/xlink"/>
+      </mets:file>
+      <mets:file ID="FL18894153" GROUPID="1" ADMID="FL18894153-amd">
+        <mets:FLocat LOCTYPE="URL" xlin:href="/server/storage/file/V1-FL18894153.warc" xmlns:xlin="http://www.w3.org/1999/xlink"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap ID="REP11111111-1" TYPE="PHYSICAL">
+    <mets:div LABEL="Preservation Master">
+      <mets:div LABEL="Table of Contents">
+        <mets:div LABEL="IAH-20170802233027-00001-blake-z1.warc" TYPE="FILE">
+          <mets:fptr FILEID="FL18894153"/>
+        </mets:div>
+        <mets:div LABEL="IAH-20170802233035-00002-blake-z1.warc" TYPE="FILE">
+          <mets:fptr FILEID="FL18894154"/>
+        </mets:div>
+        <mets:div LABEL="IAH-20170802233027-00000-blake-z1.warc" TYPE="FILE">
+          <mets:fptr FILEID="FL18894155"/>
+        </mets:div>
+        <mets:div LABEL="strippedcrawl.log" TYPE="FILE">
+          <mets:fptr FILEID="FL18894161"/>
+        </mets:div>
+        <mets:div LABEL="IAH-20170802233027-00001-blake-z1.cdx" TYPE="FILE">
+          <mets:fptr FILEID="FL18894171"/>
+        </mets:div>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>
