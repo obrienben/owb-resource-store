@@ -10,9 +10,16 @@ import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -28,10 +35,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class RemoteSourceRosettaTest {
 
     protected static Log log = LogFactory.getLog(RemoteSourceRosettaTest.class);
-    private String VALID_WARC_PATH = null;
+    private Path VALID_WARC_PATH = null;
     private String VALID_WARC_PID = null;
     private String VALID_WARC_NAME = null;
-    private Map<String, String> VALID_WARC_PATHS = new HashMap<>();
+    private List<String> VALID_WARC_PATHS = new ArrayList<>();
     private RemoteSourceRosettaImpl mock;
 
 
@@ -44,11 +51,12 @@ public class RemoteSourceRosettaTest {
 //        hah3 = new HarvestAgentH3();
         VALID_WARC_NAME = "FL18894153.warc";
         VALID_WARC_PID = "FL18894153";
-        VALID_WARC_PATH = "";
-        VALID_WARC_PATHS.put("", "");
+        VALID_WARC_PATH = Paths.get("/server/storage/file/V1-FL18894153.warc");
+        VALID_WARC_PATHS.add("/server/storage/file/V1-FL18894154.warc");
+        VALID_WARC_PATHS.add("/server/storage/file/V1-FL18894153.warc");
+        VALID_WARC_PATHS.add("/server/storage/file/V1-FL18894155.warc");
 
         mock = PowerMockito.spy(new RemoteSourceRosettaImpl());
-
     }
 
     @Test
@@ -56,7 +64,8 @@ public class RemoteSourceRosettaTest {
 
         // stubbing getActiveH3Jobs method for spying
         try {
-            PowerMockito.doReturn("Test XML").when(mock, "getIeMetsString", ArgumentMatchers.anyString());
+            StringBuilder ieMets = readInTestFile("mets_valid_open.xml");
+            PowerMockito.doReturn(ieMets.toString()).when(mock, "getIeMetsString", ArgumentMatchers.anyString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,11 +75,6 @@ public class RemoteSourceRosettaTest {
 
         // Test lookup
         if(mock.lookup(VALID_WARC_NAME)){
-            try {
-                PowerMockito.verifyPrivate(mock).invoke("generateDPSSession", ArgumentMatchers.anyString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
             // Test access restriction
             if(mock.accessAllowed()){
@@ -78,14 +82,14 @@ public class RemoteSourceRosettaTest {
                 // Test warc paths retrieval
                 try {
                     warcPath = mock.getWarc(VALID_WARC_NAME);
-                    assertEquals(warcPath.toString(), VALID_WARC_PATH);
+                    assertEquals(warcPath, VALID_WARC_PATH);
                 } catch (Exception e) {
                     fail(e.getMessage());
                 }
 
                 Map<String, String> warcPaths = mock.getAllWarcs();
                 assertNotNull(warcPaths);
-                warcPaths.forEach((k,v)->assertTrue(VALID_WARC_PATHS.containsValue(v)));
+                warcPaths.forEach((k,v)->assertTrue(VALID_WARC_PATHS.contains(v)));
 
 
             }
@@ -100,5 +104,13 @@ public class RemoteSourceRosettaTest {
 
     }
 
+    private StringBuilder readInTestFile(String filename) throws URISyntaxException, IOException {
+        Path path = Paths.get(getClass().getClassLoader().getResource(filename).toURI());
+        StringBuilder data = new StringBuilder();
+        Stream<String> lines = Files.lines(path);
+        lines.forEach(line -> data.append(line).append("\n"));
+        lines.close();
+        return data;
+    }
 
 }
