@@ -164,7 +164,10 @@ public class StoreController {
 
 						warcPath = remoteSource.getWarc(filename);
 
-						Map<String, String> warcPaths = remoteSource.getAllWarcs();
+						Map<String, String> warcPaths = remoteSource.getAllWarcsInIE();
+						for (Map.Entry<String, String> entry : warcPaths.entrySet()) {
+							addWarc(entry.getKey(), entry.getValue());
+						}
 					}
 					else {
 						response.sendError(404, "Warc file not available due to access rights");

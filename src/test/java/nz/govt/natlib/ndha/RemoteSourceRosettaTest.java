@@ -1,8 +1,5 @@
 package nz.govt.natlib.ndha;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -30,7 +27,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest(RemoteSourceRosettaImpl.class)
 public class RemoteSourceRosettaTest {
 
-    protected static Log log = LogFactory.getLog(RemoteSourceRosettaTest.class);
     private Path VALID_WARC_PATH = null;
     private String VALID_WARC_PID = null;
     private String VALID_WARC_NAME = null;
@@ -42,7 +38,6 @@ public class RemoteSourceRosettaTest {
 
     @Before
     public void setUp() throws Exception {
-        log.debug("Setting up HarvestAgentH3Test.");
         VALID_WARC_NAME = "FL18894153.warc";
         INVALID_WARC_NAME = "FL9999X999.warc";
         VALID_WARC_PID = "FL18894153";
@@ -54,6 +49,15 @@ public class RemoteSourceRosettaTest {
         mock = PowerMockito.spy(new RemoteSourceRosettaImpl());
     }
 
+    /**
+     * Test a valid lookup
+     * Conditions:
+     * - Mets XML is valid
+     * - File PID exists
+     * - Access is open
+     * - Warc path exists for File PID
+     * - All warc paths exist
+     */
     @Test
     public void testValidOpenLookup() {
 
@@ -78,11 +82,18 @@ public class RemoteSourceRosettaTest {
             fail(e.getMessage());
         }
 
-        Map<String, String> warcPaths = mock.getAllWarcs();
+        Map<String, String> warcPaths = mock.getAllWarcsInIE();
         assertNotNull(warcPaths);
         warcPaths.forEach((k,v)->assertTrue(VALID_WARC_PATHS.contains(v)));
     }
 
+    /**
+     * Test a valid lookup that has restricted access
+     * Conditions:
+     * - Mets XML is valid
+     * - File PID exists
+     * - Access is restricted
+     */
     @Test
     public void testValidRestrictedLookup() {
 
@@ -100,6 +111,12 @@ public class RemoteSourceRosettaTest {
         assertFalse(mock.accessAllowed());
     }
 
+    /**
+     * Test a lookup with invalid XML
+     * Conditions:
+     * - Mets XML is invalid
+     * - File PID not found
+     */
     @Test
     public void testInvalidXmlLookup() {
 
@@ -114,6 +131,14 @@ public class RemoteSourceRosettaTest {
         assertFalse(mock.lookup(VALID_WARC_NAME));
     }
 
+    /**
+     * Test failure to get a warc path on a valid lookup
+     * Conditions:
+     * - Mets XML is valid
+     * - File PID exists
+     * - Access is open
+     * - Warc path does not exists for File PID
+     */
     @Test
     public void testInvalidGetWarc() {
 
@@ -139,6 +164,12 @@ public class RemoteSourceRosettaTest {
         }
     }
 
+    /**
+     * Test network error on a valid lookup
+     * Conditions:
+     * - Mets XML is valid
+     * - File PID lookup fails
+     */
     @Test
     public void testNetworkErrorLookup() {
 
@@ -152,6 +183,13 @@ public class RemoteSourceRosettaTest {
         assertFalse(mock.lookup(VALID_WARC_NAME));
     }
 
+    /**
+     * Read file helper method
+     * @param filename
+     * @return StringBuilder with file contents
+     * @throws URISyntaxException
+     * @throws IOException
+     */
     private StringBuilder readInTestFile(String filename) throws URISyntaxException, IOException {
         Path path = Paths.get(getClass().getClassLoader().getResource(filename).toURI());
         StringBuilder data = new StringBuilder();

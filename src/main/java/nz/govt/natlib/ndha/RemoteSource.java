@@ -39,5 +39,5 @@ public interface RemoteSource {
      * @return
      * @throws Exception
      */
-    Map<String,String> getAllWarcs();
+    Map<String,String> getAllWarcsInIE();
 }

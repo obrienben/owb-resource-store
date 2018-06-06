@@ -11,7 +11,6 @@ import org.apache.commons.io.IOUtils;
 import javax.xml.namespace.QName;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Path;
@@ -76,7 +75,7 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
     }
 
     @Override
-    public Map<String, String> getAllWarcs() {
+    public Map<String, String> getAllWarcsInIE() {
         return filePaths;
     }
 
@@ -248,7 +247,7 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
             else{
                 System.out.println("Access denied");
             }
-            Map<String, String> warcPaths = rosetta.getAllWarcs();
+            Map<String, String> warcPaths = rosetta.getAllWarcsInIE();
             System.out.println(warcPaths);
             try {
                 Path oneWarc = rosetta.getWarc("FL18894153.warc");
