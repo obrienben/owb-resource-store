@@ -26,8 +26,8 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
     private static final Logger log = LogManager.getLogger(RemoteSourceRosettaImpl.class);
 
     // The Rosetta Web Services is available on localhost.
-    //private static final String NDHA_WEB_SERVICES_HOSTNAME = "localhost:1801";
-    private static final String NDHA_WEB_SERVICES_HOSTNAME = "appserv25.natlib.govt.nz:1801";
+    private static final String NDHA_WEB_SERVICES_HOSTNAME = "localhost:1801";
+//    private static final String NDHA_WEB_SERVICES_HOSTNAME = "appserv26.natlib.govt.nz:1801";
 //    private static final String NDHA_WEB_SERVICES_HOSTNAME = "ndhadelivertest.natlib.govt.nz";
     // Delivery Web Services wsdl URL to initialize the web service method calls
     private static final String DELIVERY_WS_WSDL_URL = "/dpsws/delivery/DeliveryAccessWS?wsdl";
@@ -66,11 +66,12 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
     }
 
     @Override
-    public Path getWarc(String name) throws Exception {
-        if(!filePaths.containsKey(name)){
+    public Path getWarc(String filename) throws Exception {
+
+        if(!filePaths.containsKey(filename)){
             return null;
         }
-        Path warcPath = Paths.get(filePaths.get(name));
+        Path warcPath = Paths.get(filePaths.get(filename));
         return warcPath;
     }
 
@@ -94,10 +95,11 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
             log.info("New Rosetta Delivery session:[" + dps_session + "] generated for pid:[" + dps_pid + "]");
 
             // Retrieve the rosetta IE METS xml to retrieve the file path
+            log.info("OWResourceStore: getting IE mets for dps_pid " + dps_pid);
             ieMetsXml = deliveryWS.getExtendedIEByDVS(dps_session, 0);
 
             if (ieMetsXml != null) {
-                log.debug("Received rosetta IE METS xml:\r\n" + ieMetsXml + "\r\n");
+//                log.debug("Received rosetta IE METS xml:\r\n" + ieMetsXml + "\r\n");
                 return ieMetsXml;
             }
         }
@@ -233,7 +235,8 @@ public class RemoteSourceRosettaImpl implements RemoteSource {
 
     public static void main(String[] args) {
 
-        String filePID = "FL18894153.warc";
+//        String filePID = "FL18894153.warc";
+        String filePID = "V1-FL18177616.warc";
         //IE11459933
         RemoteSourceRosettaImpl rosetta = new RemoteSourceRosettaImpl();
         boolean result = rosetta.lookup(filePID);

@@ -150,6 +150,9 @@ public class StoreController {
 			// Create new store connection
 			establishStoreConnection(false);
 
+			// Remove any filename versioning prefix
+			filename = filename.replaceFirst("V\\d+-", "");
+
 			// Lookup warc file path
 			Path warcPath = getWarc(filename, true);
 
@@ -157,10 +160,11 @@ public class StoreController {
 			if(warcPath == null){
 				RemoteSource remoteSource = new RemoteSourceRosettaImpl();
 				// Check availability, access level
+				log.info("OWResourceStore: looking up file " + filename + " in remote source");
 				if(remoteSource.lookup(filename)){
 
 					if(remoteSource.accessAllowed()){
-
+						log.info("OWResourceStore: access allowed for file " + filename);
 
 						warcPath = remoteSource.getWarc(filename);
 
@@ -262,7 +266,7 @@ public class StoreController {
 	}
 
 	@RequestMapping(value = "testlookup/{filename:.+}", method = RequestMethod.GET)
-	public void testlookupWarcPath(HttpServletRequest request, HttpServletResponse response, ModelMap model, @PathVariable("filename") String filename) {
+	public void testLookupWarcPath(HttpServletRequest request, HttpServletResponse response, ModelMap model, @PathVariable("filename") String filename) {
 
 		try {
 			// Create new store connection
@@ -270,6 +274,32 @@ public class StoreController {
 
 			// Lookup warc file path
 			Path warcPath = getWarc(filename, true);
+
+			// Check remote source
+			if(warcPath == null){
+				RemoteSource remoteSource = new RemoteSourceRosettaImpl();
+				// Check availability, access level
+				if(remoteSource.lookup(filename)){
+
+					if(remoteSource.accessAllowed()){
+
+
+						warcPath = remoteSource.getWarc(filename);
+
+						Map<String, String> warcPaths = remoteSource.getAllWarcsInIE();
+						for (Map.Entry<String, String> entry : warcPaths.entrySet()) {
+							addWarc(entry.getKey(), entry.getValue());
+						}
+					}
+					else {
+						response.sendError(404, "Warc file not available due to access rights");
+						log.warn("Requested filename was not available due to access rights: " + filename);
+						terminateStoreConnection();
+						return;
+					}
+				}
+			}
+
 			if(warcPath == null){
 				response.sendError(404, "Warc filename requested was not found");
 				log.warn("Requested filename was not found in Resource Store: " + filename);
@@ -277,23 +307,35 @@ public class StoreController {
 				return;
 			}
 
+			// Parse range requested in Header
+			Range range = Range.parseHeader(request, Files.size(warcPath));
+			if(range == null){
+				response.sendError(400, "Invalid or no range requested");
+				log.warn("Invalid or no range requested supplied in request.");
+				return;
+			}
+
 			terminateStoreConnection();
 
 			// Construct response
 			response.setStatus(206);
-			byte[] warcPathStr = warcPath.toString().getBytes();
-			response.setHeader("Content-Length", Long.toString(warcPathStr.length));
-			response.setContentType("application/text");
-			response.getOutputStream().write(warcPathStr);
+			response.setHeader("Content-Range", range.toString());
+			response.setHeader("Content-Length", Long.toString(range.length));
+			response.setContentType("application/warc");
 
-			log.debug("Requested filepath was successfully returned: " + filename);
+			// Write requested range from warc file to response
+			WritableByteChannel out = Channels.newChannel(response.getOutputStream());
+			FileChannel fileChannelIn = FileChannel.open(warcPath, StandardOpenOption.READ);
+			fileChannelIn.transferTo(range.start, range.length, out);
+
+			log.debug("Requested file was successfully streamed: " + filename);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("Failed to read from Resource Store", e);
 			terminateStoreConnection();
 			try {
-				response.sendError(500, "Unable to retrieve warc filepath");
+				response.sendError(500, "Unable to retrieve warc record");
 			} catch (IOException e1) {
 				log.error("Failed to send 500 response", e1);
 			}

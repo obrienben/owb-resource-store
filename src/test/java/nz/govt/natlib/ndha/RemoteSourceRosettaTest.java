@@ -38,10 +38,12 @@ public class RemoteSourceRosettaTest {
 
     @Before
     public void setUp() throws Exception {
-        VALID_WARC_NAME = "FL18894153.warc";
+//        VALID_WARC_NAME = "V1-FL18894153.warc";
+        VALID_WARC_NAME = "V1-FL18177616.warc";
         INVALID_WARC_NAME = "FL9999X999.warc";
         VALID_WARC_PID = "FL18894153";
-        VALID_WARC_PATH = Paths.get("/server/storage/file/V1-FL18894153.warc");
+//        VALID_WARC_PATH = Paths.get("/server/storage/file/V1-FL18894153.warc");
+        VALID_WARC_PATH = Paths.get("/server/storage/file/V1-FL18177616.warc");
         VALID_WARC_PATHS.add("/server/storage/file/V1-FL18894154.warc");
         VALID_WARC_PATHS.add("/server/storage/file/V1-FL18894153.warc");
         VALID_WARC_PATHS.add("/server/storage/file/V1-FL18894155.warc");
